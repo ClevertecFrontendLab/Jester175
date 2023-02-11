@@ -1,0 +1,35 @@
+.breadcrumbs {
+	font-size: 14px;
+	line-height: 18px;
+	align-items: center;
+	letter-spacing: 0.1px;
+	color: #a7a7a7;
+}
+
+.divider {
+	margin-left: 11px;
+	margin-right: 12px;
+	padding: 3px 7px;
+}
+
+@media (max-width: 768px) {
+	.breadcrumbs__title {
+		font-size: 16px;
+		line-height: 24px;
+	}
+}
+
+@media (max-width: 420px) {
+	.divider {
+		margin-right: 4px;
+		margin-left: 4px;
+	}
+
+	.breadcrumbs,
+	.breadcrumbs__title {
+		font-weight: 500;
+		font-size: 12px;
+		line-height: 18px;
+		letter-spacing: 0.2px;
+	}
+}

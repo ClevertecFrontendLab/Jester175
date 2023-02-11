@@ -1,0 +1,136 @@
+.collage-swiper {
+    position: relative;
+	margin-top: 16px;
+	height: 100px;
+}
+
+.collage-swiper::after {
+	content: '';
+    position: absolute;
+    top: 0;
+    left: -100px;
+    width: 100px;
+	height: 100%;
+	z-index: 5;
+    box-shadow: 15px -2px 25px 18px #ffff;
+}
+.collage-swiper::before {
+	content: '';
+    position: absolute;
+    top: 0;
+    right: -100px;
+    width: 100px;
+	height: 100%;
+	z-index: 5;
+    box-shadow: -15px 2px 25px 18px #ffff;
+}
+
+.collage-swiper .swiper-slide {
+	width: 14.6%;
+	max-height: 86px;
+}
+
+.collage-swiper .swiper-slide img {
+	width: 100%;
+	height: 86px;
+}
+
+.collage-swiper__btn {
+	background-color: transparent;
+	cursor: pointer;
+	border: none;
+	outline: none;
+}
+
+.collage-swiper .swiper-pagination {
+	display: none;
+}
+
+.collage-swiper .swiper-scrollbar-drag {
+	display: none;
+}
+
+.collage-swiper .swiper-scrollbar.swiper-scrollbar-horizontal{
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.collage-swiper:hover .swiper-scrollbar-drag:last-child {
+    display: block;
+	background: #a7a7a7;
+	border-radius: 4px;
+}
+
+@media (max-width: 768px) {
+	.collage-swiper {
+		margin-top: 0;
+		height: 238px;
+	}
+
+    .collage-swiper--hidden {
+        display: none;
+    }
+
+    .collage-swiper .swiper-scrollbar.swiper-scrollbar-horizontal{
+        display: none;
+    }
+
+	.collage-swiper::after,
+    .collage-swiper::before {
+		display: none;
+	}
+
+	.collage-swiper .swiper-slide {
+		width: 136px;
+		max-height: 238px;
+	}
+
+	.collage-swiper .swiper-slide img {
+		width: 100%;
+		height: 198px;
+	}
+
+	.collage-swiper .swiper-pagination {
+		display: flex;
+	}
+
+	.collage-swiper.swiper-horizontal > .swiper-pagination-bullets,
+	.swiper-pagination-bullets.swiper-pagination-horizontal,
+	.swiper-pagination-custom,
+	.swiper-pagination-fraction {
+		bottom: 4px;
+	}
+
+	.collage-swiper .swiper-pagination-bullet {
+		width: 7px;
+		height: 7px;
+		background-color: #bfc4c9;
+	}
+	.collage-swiper .swiper-pagination-bullet-active {
+		width: 9px;
+		height: 9px;
+		background-color: #363636;
+	}
+}
+
+@media (max-width: 420px) {
+	.collage-swiper {
+		height: 300px;
+	}
+
+	.collage-swiper.swiper-horizontal > .swiper-pagination-bullets,
+	.swiper-pagination-bullets.swiper-pagination-horizontal,
+	.swiper-pagination-custom,
+	.swiper-pagination-fraction {
+		bottom: 4px;
+	}
+
+	.collage-swiper .swiper-slide img {
+		width: 100%;
+		height: 259.56px;
+	}
+
+	.collage-swiper .swiper-slide {
+		width: 100%;
+		max-height: 259.56px;
+	}
+}
