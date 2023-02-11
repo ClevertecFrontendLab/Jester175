@@ -1,5 +1,3 @@
-import { Sidebar } from '../../components/sidebar';
-
 import styles from './terms.module.css';
 
 export const Terms = ({ title }) => (
