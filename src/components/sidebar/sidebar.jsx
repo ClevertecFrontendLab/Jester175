@@ -1,15 +1,28 @@
 import { CATEGORIES as categories } from 'constants';
 
-import { useEffect, useRef, useState } from 'react';
-import { Link, NavLink, useOutletContext, useParams } from 'react-router-dom';
+import { useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link, NavLink, useParams } from 'react-router-dom';
 import { IconArrow } from 'assets/images/sidebar';
+import { toggleAccordion } from 'store/accordion-reducer';
+import { toggleBurgerMenu } from 'store/burger-reducer';
 
 import styles from './sidebar.module.css';
 
 export const Sidebar = () => {
+	const dispatch = useDispatch();
+	const isBurger = useSelector((state) => state.burger.isBurger);
+	const isAccordion = useSelector((state) => state.accordion.isAccordion);
+
 	const setActive = ({ isActive }) => (isActive ? styles['item--active'] : styles.item);
-	const [accordion, setAccordion] = useState(true);
-	const [isBurger, clickSidebar] = useOutletContext();
+
+	const clickSidebar = () => {
+		dispatch(toggleBurgerMenu(false));
+	};
+
+	const clickAccordion = (value) => {
+		dispatch(toggleAccordion(value));
+	};
 
 	const menuRef = useRef();
 	const { category } = useParams();
@@ -41,14 +54,14 @@ export const Sidebar = () => {
 						data-test-id='navigation-showcase'
 						className={setActive}
 						to={`/books/${category || 'all'}${bookId ? `/${bookId}` : ''}`}
-						onClick={() => setAccordion(!accordion)}
+						onClick={() => clickAccordion(!isAccordion)}
 					>
 						<span className={styles.item__arrow} data-test-id='burger-showcase'>
 							Витрина книг
 						</span>
-						<span className={accordion ? styles.arrow : `${styles['arrow--active']} ${styles.arrow}`}>{IconArrow}</span>
+						<span className={isAccordion ? styles.arrow : `${styles['arrow--active']} ${styles.arrow}`}>{IconArrow}</span>
 					</NavLink>
-					<ul className={accordion ? styles.sublist : styles['sublist--hidden']}>
+					<ul className={isAccordion ? styles.sublist : styles['sublist--hidden']}>
 						{categories.map(({ name, path }) => (
 							<li
 								className={category === path ? `${styles.subitem} ${styles['subitem--active']}` : styles.subitem}
@@ -64,7 +77,7 @@ export const Sidebar = () => {
 					</ul>
 				</li>
 				<li className={styles.item} data-test-id='navigation-terms'>
-					<NavLink data-test-id='burger-terms' className={setActive} to='/terms' onClick={() => setAccordion(false)}>
+					<NavLink data-test-id='burger-terms' className={setActive} to='/terms' onClick={() => clickAccordion(false)}>
 						Правила пользования
 					</NavLink>
 				</li>
@@ -73,7 +86,7 @@ export const Sidebar = () => {
 						data-test-id='burger-contract'
 						className={setActive}
 						to='/contract'
-						onClick={() => setAccordion(false)}
+						onClick={() => clickAccordion(false)}
 					>
 						Договор оферты
 					</NavLink>
@@ -81,12 +94,12 @@ export const Sidebar = () => {
 			</ul>
 			<ul className={styles.list__additional}>
 				<li className={styles.item}>
-					<NavLink className={setActive} to='/profile' onClick={() => setAccordion(false)}>
+					<NavLink className={setActive} to='/profile' onClick={() => clickAccordion(false)}>
 						Профиль
 					</NavLink>
 				</li>
 				<li className={styles.item}>
-					<NavLink className={setActive} to='/exit' onClick={() => setAccordion(false)}>
+					<NavLink className={setActive} to='/exit' onClick={() => clickAccordion(false)}>
 						Выход
 					</NavLink>
 				</li>

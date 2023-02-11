@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 
 import { Footer } from '../footer/footer';
@@ -7,15 +7,7 @@ import { Header } from '../header/header';
 import styles from './layout.module.css';
 
 export const Layout = () => {
-	const [isBurger, setIsBurger] = useState(false);
-
-	const closeBurger = () => {
-		setIsBurger(!isBurger);
-	};
-
-	const closeSidebar = () => {
-		setIsBurger(false);
-	};
+	const isBurger = useSelector(state => state.burger.isBurger);
 
 	if (isBurger) {
 		document.body.style.overflow = 'hidden';
@@ -25,8 +17,8 @@ export const Layout = () => {
 
 	return (
 		<div className={styles.page}>
-			<Header handlerBurger={[isBurger, closeBurger]} />
-			<Outlet context={[isBurger, closeSidebar]} />
+			<Header />
+			<Outlet />
 			<Footer />
 		</div>
 	);

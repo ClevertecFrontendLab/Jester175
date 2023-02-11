@@ -1,16 +1,19 @@
-import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import {toggleBurgerMenu} from 'store/burger-reducer'
 
 import avatar from '../../assets/images/header/header_avatar.svg';
 import logo from '../../assets/images/header/logo.svg';
 
 import styles from './header.module.css';
 
-export const Header = ({ handlerBurger }) => {
-	const [isBurger, setIsBurger] = handlerBurger;
+export const Header = () => {
+
+    const dispatch = useDispatch();
+	const isBurger = useSelector(state => state.burger.isBurger);
 
 	function handlerClickBurger() {
-		setIsBurger();
+		dispatch(toggleBurgerMenu(!isBurger));
 	}
 
 	return (
