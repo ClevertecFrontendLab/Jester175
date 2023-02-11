@@ -1,28 +1,39 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { IconList, IconLoupe, IconTile } from 'assets/images/main/sort';
 import { IconClose } from 'assets/images/main/sort/icons';
 import { Card } from 'components/card';
 import { books } from 'data/books';
+import { clickCardView } from 'store/card-reducer';
+import { clickSearch } from 'store/search-reducer';
 
 import styles from './main-page.module.css';
 
 export const MainPage = () => {
-	const [display, setDisplay] = useState('groupByTile');
-	const [search, setSearch] = useState(false);
-	const [clickSearch, setClickSearch] = useState(false);
+    const dispatch = useDispatch();
+    const isSearch = useSelector(state => state.search.isSearch);
+    const cardView = useSelector(state => state.card.cardView);
 
+    const swapCardView = (value) => {
+        dispatch(clickCardView(value));
+    }
 
-	const ref = useRef();
-	const { category } = useParams();
+    const closeSearch = (value) => {
+        dispatch(clickSearch(value));
+    }
+
+    const { category } = useParams();
+
 	const filterData = (arr, category) => {
-		if (category === 'all') return arr;
+        if (category === 'all') return arr;
 
 		return arr.filter((item) => item.category === category);
 	};
 
 	const visibleItems = filterData(books, category);
 
+    const ref = useRef();
 	const clearField = () => {
 		ref.current.value = '';
 	};
@@ -36,10 +47,10 @@ export const MainPage = () => {
 							<button
 								type='button'
 								className={`${
-									clickSearch ? `${styles['searchIcon--hidden']} ${styles.searchIcon}` : `${styles.searchIcon}`
+									isSearch ? `${styles['searchIcon--hidden']} ${styles.searchIcon}` : `${styles.searchIcon}`
 								}`}
 								onClick={() => {
-									setClickSearch(true);
+									closeSearch(true);
 								}}
 							>
 								{IconLoupe}
@@ -50,20 +61,19 @@ export const MainPage = () => {
 								data-test-id='input-search'
 								placeholder='Поиск книги или автора...'
 								className={`${
-									search
+									isSearch
 										? `${styles['search--active']} ${styles.input} ${styles.search}`
 										: `${styles.input} ${styles.search}`
-								} ${clickSearch ? `${styles['search--active']}` : ''}`}
-								onClick={() => setSearch(true)}
+								} ${isSearch ? `${styles['search--active']}` : ''}`}
+								onClick={() => closeSearch(true)}
 							/>
 							<button
 								className={styles.close}
 								type='button'
 								data-test-id='button-search-close'
 								onClick={() => {
-									setSearch(false);
+									closeSearch(false);
 									clearField();
-                                    setClickSearch(false)
 								}}
 							>
 								{IconClose}
@@ -76,25 +86,25 @@ export const MainPage = () => {
 					<button
 						type='button'
 						data-test-id='button-menu-view-window'
-						className={`${styles.btn} ${display === 'groupByTile' ? styles.displayActive : styles.tile}`}
-						onClick={() => setDisplay('groupByTile')}
+						className={`${styles.btn} ${cardView === 'groupByTile' ? styles.displayActive : styles.tile}`}
+						onClick={() => swapCardView('groupByTile')}
 					>
 						{IconTile}
 					</button>
 					<button
 						type='button'
 						data-test-id='button-menu-view-list'
-						onClick={() => setDisplay('groupByList')}
-						className={`${styles.btn} ${display === 'groupByList' ? styles.displayActive : styles.list}`}
+						onClick={() => swapCardView('groupByList')}
+						className={`${styles.btn} ${cardView === 'groupByList' ? styles.displayActive : styles.list}`}
 					>
 						{IconList}
 					</button>
 				</div>
 			</div>
-			<div className={styles[display]}>
+			<div className={styles[cardView]}>
 				{visibleItems.map((book) => (
 					<Link to={`/books/${book.category}/${book.id}`} key={book.id} data-test-id='card' className={styles.linkCard}>
-						<Card key={book.id} book={book} groupBy={display} />
+						<Card key={book.id} book={book} groupBy={cardView} />
 					</Link>
 				))}
 			</div>

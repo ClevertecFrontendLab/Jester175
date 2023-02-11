@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { IconArrow } from 'assets/images/book';
 import { bgDefault } from 'assets/images/main/card';
@@ -9,15 +10,24 @@ import { CollageSwiper } from 'components/collage-swiper';
 import { Comment } from 'components/comment/';
 import { Sidebar } from 'components/sidebar';
 import { books } from 'data/books';
+import { fetchBooks } from 'store/async-actions/books';
+import { clickComments } from 'store/comments-reducer';
 
 import styles from './book-page.module.css';
 
 export const BookPage = () => {
+	const dispatch = useDispatch();
+	const isComments = useSelector((state) => state.comments.isComments);
+	// const booksAsync = useSelector((state) => state.books.books);
+
+	const btnClickComments = (value) => {
+		dispatch(clickComments(value));
+	};
+
 	const { bookId } = useParams();
 
 	const book = books.find((item) => item.id === bookId);
 
-	const [isComments, setIsComments] = useState(false);
 	const [currentImage, setCurrentImage] = useState(book.image);
 
 	const setImage = (value) => {
@@ -143,7 +153,7 @@ export const BookPage = () => {
 						className={`${
 							book.estimate ? `${styles['feedback--visible']} ${styles.feedback__content}` : styles.feedback__content
 						} ${isComments ? styles.borderHidden : 0}`}
-						onClick={() => setIsComments(!isComments)}
+						onClick={() => btnClickComments(!isComments)}
 						type='button'
 						data-test-id='button-hide-reviews'
 					>
