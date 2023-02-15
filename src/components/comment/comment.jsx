@@ -5,7 +5,7 @@ import styles from './comment.module.css';
 
 export const Comment = ({ comment }) => {
 	const years = [
-        'null',
+		'null',
 		'январь',
 		'февраль',
 		'март',
@@ -20,14 +20,15 @@ export const Comment = ({ comment }) => {
 		'декабрь',
 	];
 
-    const formatDate = () => {
-        const localeDate = new Date(comment.createdAt).toLocaleDateString().split('.');
-        const year = new Date(comment.createdAt).getFullYear();
-        const day = localeDate[0];
-        const month = years[localeDate[1].slice(1,2)]
+	const formatDate = () => {
+		const localeDate = new Date(comment.createdAt).toLocaleDateString().split('/');
 
-        return `${day} ${month} ${year}`;
-    }
+		const day = localeDate[1];
+		const month = years[localeDate[0] - 1];
+		const year = localeDate[2];
+
+		return `${day} ${month} ${year}`;
+	};
 
 	return (
 		<div className={styles.user}>
