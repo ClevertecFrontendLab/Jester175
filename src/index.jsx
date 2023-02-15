@@ -1,4 +1,3 @@
-import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { HashRouter, Navigate, Route, Routes } from 'react-router-dom';
@@ -15,8 +14,7 @@ import './index.css';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
-	<React.StrictMode>
-		<Provider store = {store}>
+	<Provider store = {store}>
 			<HashRouter>
 				<Routes>
 					<Route path='/' element={<Layout />}>
@@ -31,5 +29,4 @@ root.render(
 				</Routes>
 			</HashRouter>
 		</Provider>
-	</React.StrictMode>
 );
