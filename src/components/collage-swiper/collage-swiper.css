@@ -91,6 +91,7 @@
 
 	.collage-swiper .swiper-pagination {
 		display: flex;
+        justify-content: center;
 	}
 
 	.collage-swiper.swiper-horizontal > .swiper-pagination-bullets,

@@ -34,6 +34,7 @@ export const CollageSwiper = ({ book, setImage }) => (
 						className='collage-swiper__btn'
 						onClick={() => {
 							setImage(img.url);
+                            console.log(img.url);
 						}}
 					>
 						<img className='swiper__picture' src={`https://strapi.cleverland.by${img.url}`} alt='Обложка' />
