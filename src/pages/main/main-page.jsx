@@ -30,8 +30,11 @@ export const MainPage = () => {
 	};
 
 	useEffect(() => {
-		dispatch(fetchBooks());
-	}, [dispatch]);
+		if (!books.length && !categories.length) {
+			dispatch(fetchCategories());
+			dispatch(fetchBooks());
+		}
+	}, [books, categories, dispatch]);
 
 	const filterData = (arr, categoryParam) => {
 		if (categoryParam === 'all') return arr;
@@ -110,7 +113,6 @@ export const MainPage = () => {
 				</div>
 			</div>
 			<div className={styles[cardView]}>
-				{/* {console.log(visibleItems)} */}
 				{visibleItems.error
 					? ''
 					: visibleItems.map((book) => (

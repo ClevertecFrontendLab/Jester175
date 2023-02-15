@@ -25,10 +25,6 @@ export const Sidebar = () => {
 		dispatch(toggleAccordion(value));
 	};
 
-    useEffect(() => {
-		dispatch(fetchCategories());
-	}, [dispatch]);
-
 	const menuRef = useRef();
 	const { category } = useParams();
 	const { bookId } = useParams();

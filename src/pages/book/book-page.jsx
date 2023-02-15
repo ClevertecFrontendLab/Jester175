@@ -8,7 +8,7 @@ import { Rating } from 'components/card/rating';
 import { CollageSwiper } from 'components/collage-swiper';
 import { Comment } from 'components/comment/';
 import { Sidebar } from 'components/sidebar';
-import { fetchBook } from 'store/async-actions/async-actions';
+import { fetchBook } from 'store/async-actions';
 import { clickComments } from 'store/comments-reducer';
 
 import styles from './book-page.module.css';
@@ -29,7 +29,7 @@ export const BookPage = () => {
 		dispatch(fetchBook(bookId));
 	}, [bookId, dispatch]);
 
-	const [currentImage, setCurrentImage] = useState();
+	const [currentImage, setCurrentImage] = useState(book?.images?.[0]?.url);
 
 	const setImage = (value) => {
 		setCurrentImage(value);
@@ -45,131 +45,135 @@ export const BookPage = () => {
 					<BreadCrumbs book={book} />
 				</div>
 			</div>
-			<div className={book ? styles.container : styles.hidden}>
-				<div className={styles.preview}>
-					<div className={styles.preview__picture}>
-						<img
-							src={`https://strapi.cleverland.by${book?.images?.[0]?.url}` ?? bgDefault}
-							className={book?.images?.length >= 2 ? `${styles['preview__img--hidden']}` : null}
-							alt='Обложка'
-						/>
-						<CollageSwiper book={book} setImage={setImage} />
-					</div>
-					<div className={styles.preview__view}>
-						<h2 className={styles.preview__title}>{book?.title}</h2>
-						<p className={styles.preview__author}>
-							{book?.authors?.map((author) => `${author}, `)} {book?.issueYear}
-						</p>
-						<button
-							className={styles[book?.delivery ? 'btn-order' : book?.booking ? 'btn-order' : 'btn']}
-							type='button'
-						>
-							{book?.delivery
-								? `Занята до ${book?.delivery.dateOrder}`
-								: book?.booking
-								? 'Забронирована'
-								: 'Забронировать'}
-						</button>
-						<div className={`${styles.text} ${styles.text__1440}`}>
+			{isError ? (
+				''
+			) : (
+				<div className={book ? styles.container : styles.hidden}>
+					<div className={styles.preview}>
+						<div className={styles.preview__picture}>
+							<img
+								src={currentImage ? `https://strapi.cleverland.by${currentImage}` : bgDefault}
+								className={book?.images?.length >= 2 ? `${styles['preview__img--hidden']}` : null}
+								alt='Обложка'
+							/>
+							<CollageSwiper book={book} setImage={setImage} />
+						</div>
+						<div className={styles.preview__view}>
+							<h2 className={styles.preview__title}>{book?.title}</h2>
+							<p className={styles.preview__author}>
+								{book?.authors?.map((author) => `${author}, `)} {book?.issueYear}
+							</p>
+							<button
+								className={styles[book?.delivery ? 'btn-order' : book?.booking ? 'btn-order' : 'btn']}
+								type='button'
+							>
+								{book?.delivery
+									? `Занята до ${book?.delivery.dateOrder}`
+									: book?.booking
+									? 'Забронирована'
+									: 'Забронировать'}
+							</button>
+							<div className={`${styles.text} ${styles.text__1440}`}>
+								<div className={`${styles.about} ${styles.subtitle}`}>О книге</div>
+								<p className={styles.descr}>{book?.description}</p>
+							</div>
+						</div>
+						<div className={`${styles.text} ${styles.text__768}`}>
 							<div className={`${styles.about} ${styles.subtitle}`}>О книге</div>
 							<p className={styles.descr}>{book?.description}</p>
 						</div>
 					</div>
-					<div className={`${styles.text} ${styles.text__768}`}>
-						<div className={`${styles.about} ${styles.subtitle}`}>О книге</div>
-						<p className={styles.descr}>{book?.description}</p>
-					</div>
-				</div>
-				<div className={styles.rating}>
-					<h3 className={`${styles.subtitle}`}>Рейтинг</h3>
-					<div className={styles.estimation}>
-						<Rating length={Math.round(book?.rating) ?? 0} />
-						<span className={styles.estimate}>{book?.rating}</span>
-					</div>
-				</div>
-				<div className={styles.info}>
-					<h3 className={`${styles.subtitle}`}>Подробная информация</h3>
-					<div className={styles.details}>
-						<ul className={styles.list}>
-							<li className={styles.item}>
-								<span className={styles.parameter}>Издательство</span>
-								<span className={styles.value}>{book?.publish}</span>
-							</li>
-							<li className={styles.item}>
-								<span className={styles.parameter}>Год издания</span>
-								<span className={styles.value}>{book?.issueYear}</span>
-							</li>
-							<li className={styles.item}>
-								<span className={styles.parameter}>Страниц</span>
-								<span className={styles.value}>{book?.pages}</span>
-							</li>
-							<li className={styles.item}>
-								<span className={styles.parameter}>Переплёт</span>
-								<span className={styles.value}>{book?.cover}</span>
-							</li>
-							<li className={styles.item}>
-								<span className={styles.parameter}>Формат</span>
-								<span className={styles.value}>{book?.format}</span>
-							</li>
-						</ul>
-						<ul className={styles.list}>
-							<li className={styles.item}>
-								<span className={styles.parameter}>Жанр</span>
-								<span className={styles.value}>{category}</span>
-							</li>
-							<li className={styles.item}>
-								<span className={styles.parameter}>Вес</span>
-								<span className={styles.value}>{book?.weight} г</span>
-							</li>
-							<li className={styles.item}>
-								<span className={styles.parameter}>ISBN</span>
-								<span className={styles.value}>{book?.ISBN}</span>
-							</li>
-							<li className={styles.item}>
-								<span className={styles.parameter}>Изготовитель</span>
-								<span className={styles.value}>
-									<p>{book?.producer}</p>
-								</span>
-							</li>
-						</ul>
-					</div>
-				</div>
-				<div className={styles.feedback}>
-					<button
-						className={`${
-							book?.rating ? `${styles['feedback--visible']} ${styles.feedback__content}` : styles.feedback__content
-						} ${isComments ? styles.borderHidden : 0}`}
-						onClick={() => btnClickComments(!isComments)}
-						type='button'
-						data-test-id='button-hide-reviews'
-					>
-						<div className={styles.feedback__contentWrapper}>
-							<div className={styles.feedback__title}>Отзывы</div>
-							<div className={styles.feedback__count}>{book?.comments?.length ?? 0}</div>
+					<div className={styles.rating}>
+						<h3 className={`${styles.subtitle}`}>Рейтинг</h3>
+						<div className={styles.estimation}>
+							<Rating length={Math.round(book?.rating) ?? 0} />
+							<span className={styles.estimate}>{book?.rating}</span>
 						</div>
-						<span
-							className={`${book?.rating ? styles.feedback__arrow : styles['feedback__arrow--hidden']}
+					</div>
+					<div className={styles.info}>
+						<h3 className={`${styles.subtitle}`}>Подробная информация</h3>
+						<div className={styles.details}>
+							<ul className={styles.list}>
+								<li className={styles.item}>
+									<span className={styles.parameter}>Издательство</span>
+									<span className={styles.value}>{book?.publish}</span>
+								</li>
+								<li className={styles.item}>
+									<span className={styles.parameter}>Год издания</span>
+									<span className={styles.value}>{book?.issueYear}</span>
+								</li>
+								<li className={styles.item}>
+									<span className={styles.parameter}>Страниц</span>
+									<span className={styles.value}>{book?.pages}</span>
+								</li>
+								<li className={styles.item}>
+									<span className={styles.parameter}>Переплёт</span>
+									<span className={styles.value}>{book?.cover}</span>
+								</li>
+								<li className={styles.item}>
+									<span className={styles.parameter}>Формат</span>
+									<span className={styles.value}>{book?.format}</span>
+								</li>
+							</ul>
+							<ul className={styles.list}>
+								<li className={styles.item}>
+									<span className={styles.parameter}>Жанр</span>
+									<span className={styles.value}>{category}</span>
+								</li>
+								<li className={styles.item}>
+									<span className={styles.parameter}>Вес</span>
+									<span className={styles.value}>{book?.weight} г</span>
+								</li>
+								<li className={styles.item}>
+									<span className={styles.parameter}>ISBN</span>
+									<span className={styles.value}>{book?.ISBN}</span>
+								</li>
+								<li className={styles.item}>
+									<span className={styles.parameter}>Изготовитель</span>
+									<span className={styles.value}>
+										<p>{book?.producer}</p>
+									</span>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div className={styles.feedback}>
+						<button
+							className={`${
+								book?.rating ? `${styles['feedback--visible']} ${styles.feedback__content}` : styles.feedback__content
+							} ${isComments ? styles.borderHidden : 0}`}
+							onClick={() => btnClickComments(!isComments)}
+							type='button'
+							data-test-id='button-hide-reviews'
+						>
+							<div className={styles.feedback__contentWrapper}>
+								<div className={styles.feedback__title}>Отзывы</div>
+								<div className={styles.feedback__count}>{book?.comments?.length ?? 0}</div>
+							</div>
+							<span
+								className={`${book?.rating ? styles.feedback__arrow : styles['feedback__arrow--hidden']}
                             ${isComments ? styles['feedback__arrow--close'] : ''}`}
-						>
-							{IconArrow}
-						</span>
-					</button>
-					{!!book?.rating && (
-						<div
-							className={
-								isComments ? `${styles.feedback__users} ${styles['feedback__users--hidden']}` : styles.feedback__users
-							}
-						>
-							{book?.comments?.map((comment) => (
-								<Comment comment={comment} />
-							))}
-						</div>
-					)}
-					<button type='button' className={styles.feedback__btn} data-test-id='button-rating'>
-						оценить книгу
-					</button>
+							>
+								{IconArrow}
+							</span>
+						</button>
+						{!!book?.rating && (
+							<div
+								className={
+									isComments ? `${styles.feedback__users} ${styles['feedback__users--hidden']}` : styles.feedback__users
+								}
+							>
+								{book?.comments?.map((comment) => (
+									<Comment comment={comment} />
+								))}
+							</div>
+						)}
+						<button type='button' className={styles.feedback__btn} data-test-id='button-rating'>
+							оценить книгу
+						</button>
+					</div>
 				</div>
-			</div>
+			)}
 		</section>
 	);
 };
