@@ -7,6 +7,10 @@
 	display: none;
 }
 
+.hidden {
+    display: none;
+}
+
 .container {
 	margin: 0 auto;
 	padding: 0 20px;
@@ -57,7 +61,7 @@
 	align-items: flex-start;
 	width: 100%;
 	max-width: 635px;
-	max-height: 658px;
+	/* max-height: 658px; */
 }
 
 .preview__title {
@@ -94,6 +98,7 @@
 }
 
 .btn-order {
+    margin-bottom: 62px;
 	padding: 14px 99px;
 	border: 1px solid #bfc4c9;
 	background: #f9f9fa;
@@ -105,10 +110,6 @@
 	color: #a7a7a7;
 	text-transform: uppercase;
 	cursor: pointer;
-}
-
-.text {
-	margin-top: auto;
 }
 
 .text__768 {

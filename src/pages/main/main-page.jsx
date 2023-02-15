@@ -1,39 +1,47 @@
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useParams } from 'react-router-dom';
 import { IconList, IconLoupe, IconTile } from 'assets/images/main/sort';
 import { IconClose } from 'assets/images/main/sort/icons';
 import { Card } from 'components/card';
-import { books } from 'data/books';
+import { fetchBooks, fetchCategories } from 'store/async-actions';
 import { clickCardView } from 'store/card-reducer';
+import { setLoading } from 'store/loader-reducer';
 import { clickSearch } from 'store/search-reducer';
 
 import styles from './main-page.module.css';
 
 export const MainPage = () => {
-    const dispatch = useDispatch();
-    const isSearch = useSelector(state => state.search.isSearch);
-    const cardView = useSelector(state => state.card.cardView);
+	const dispatch = useDispatch();
+	const isSearch = useSelector((state) => state.search.isSearch);
+	const cardView = useSelector((state) => state.card.cardView);
+	const books = useSelector((state) => state.books.books);
+	const categories = useSelector((state) => state.categories.categories);
+	const isError = useSelector((state) => state.modalError.modalErr);
 
-    const swapCardView = (value) => {
-        dispatch(clickCardView(value));
-    }
+	const { category } = useParams();
 
-    const closeSearch = (value) => {
-        dispatch(clickSearch(value));
-    }
-
-    const { category } = useParams();
-
-	const filterData = (arr, category) => {
-        if (category === 'all') return arr;
-
-		return arr.filter((item) => item.category === category);
+	const swapCardView = (value) => {
+		dispatch(clickCardView(value));
 	};
 
+	const closeSearch = (value) => {
+		dispatch(clickSearch(value));
+	};
+
+	useEffect(() => {
+		dispatch(fetchBooks());
+	}, [dispatch]);
+
+	const filterData = (arr, categoryParam) => {
+		if (categoryParam === 'all') return arr;
+		const currentCategory = categories.find((item) => item.path === categoryParam);
+
+		return arr.filter((book) => book.categories.find((item) => item === currentCategory.name));
+	};
 	const visibleItems = filterData(books, category);
 
-    const ref = useRef();
+	const ref = useRef();
 	const clearField = () => {
 		ref.current.value = '';
 	};
@@ -102,11 +110,19 @@ export const MainPage = () => {
 				</div>
 			</div>
 			<div className={styles[cardView]}>
-				{visibleItems.map((book) => (
-					<Link to={`/books/${book.category}/${book.id}`} key={book.id} data-test-id='card' className={styles.linkCard}>
-						<Card key={book.id} book={book} groupBy={cardView} />
-					</Link>
-				))}
+				{/* {console.log(visibleItems)} */}
+				{visibleItems.error
+					? ''
+					: visibleItems.map((book) => (
+							<Link
+								to={`/books/${book.categories}/${book.id}`}
+								key={book.id}
+								data-test-id='card'
+								className={styles.linkCard}
+							>
+								<Card key={book.id} book={book} groupBy={cardView} />
+							</Link>
+					  ))}
 			</div>
 		</section>
 	);

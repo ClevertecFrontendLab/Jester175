@@ -1,10 +1,9 @@
-import { CATEGORIES as categories } from 'constants';
-
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink, useParams } from 'react-router-dom';
 import { IconArrow } from 'assets/images/sidebar';
 import { toggleAccordion } from 'store/accordion-reducer';
+import { fetchCategories } from 'store/async-actions';
 import { toggleBurgerMenu } from 'store/burger-reducer';
 
 import styles from './sidebar.module.css';
@@ -13,6 +12,8 @@ export const Sidebar = () => {
 	const dispatch = useDispatch();
 	const isBurger = useSelector((state) => state.burger.isBurger);
 	const isAccordion = useSelector((state) => state.accordion.isAccordion);
+	const categories = useSelector((state) => state.categories.categories);
+    const isError = useSelector((state) => state.modalError.modalErr);
 
 	const setActive = ({ isActive }) => (isActive ? styles['item--active'] : styles.item);
 
@@ -23,6 +24,10 @@ export const Sidebar = () => {
 	const clickAccordion = (value) => {
 		dispatch(toggleAccordion(value));
 	};
+
+    useEffect(() => {
+		dispatch(fetchCategories());
+	}, [dispatch]);
 
 	const menuRef = useRef();
 	const { category } = useParams();
@@ -59,21 +64,25 @@ export const Sidebar = () => {
 						<span className={styles.item__arrow} data-test-id='burger-showcase'>
 							Витрина книг
 						</span>
-						<span className={isAccordion ? styles.arrow : `${styles['arrow--active']} ${styles.arrow}`}>{IconArrow}</span>
+						<span className={isAccordion ? styles.arrow : `${styles['arrow--active']} ${styles.arrow}`}>
+							{IconArrow}
+						</span>
 					</NavLink>
 					<ul className={isAccordion ? styles.sublist : styles['sublist--hidden']}>
-						{categories.map(({ name, path }) => (
-							<li
-								className={category === path ? `${styles.subitem} ${styles['subitem--active']}` : styles.subitem}
-								data-test-id='navigation-books'
-								key={name}
-							>
-								<Link to={`/books/${path}`} data-path='data' data-test-id='burger-books' onClick={clickSidebar}>
-									{name}
-									<span className={styles.count}>{Math.round(Math.random() * 54)}</span>
-								</Link>
-							</li>
-						))}
+						{categories
+							? categories.map(({ name, path }) => (
+									<li
+										className={category === path ? `${styles.subitem} ${styles['subitem--active']}` : styles.subitem}
+										data-test-id='navigation-books'
+										key={name}
+									>
+										<Link to={`/books/${path}`} data-path='data' data-test-id='burger-books' onClick={clickSidebar}>
+											{name}
+											<span className={styles.count}>{Math.round(Math.random() * 54)}</span>
+										</Link>
+									</li>
+							  ))
+							: ''}
 					</ul>
 				</li>
 				<li className={styles.item} data-test-id='navigation-terms'>
