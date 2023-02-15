@@ -14,6 +14,12 @@
 	margin-right: 24px;
 }
 
+.avatar {
+	width: 32px;
+	height: 32px;
+	border-radius: 100px;
+}
+
 .nickname,
 .date {
 	font-weight: 400;
@@ -78,11 +84,11 @@
 		height: 24px;
 	}
 
-    .user {
-        margin-bottom: 0;
-    }
+	.user {
+		margin-bottom: 0;
+	}
 
-    .user:not(:last-child) {
+	.user:not(:last-child) {
 		margin-bottom: 32px;
 	}
 

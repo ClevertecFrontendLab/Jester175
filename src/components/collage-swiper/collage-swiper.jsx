@@ -24,19 +24,19 @@ export const CollageSwiper = ({ book, setImage }) => (
 				slidesPerView: 'auto',
 			},
 		}}
-		className={book.otherImage ? 'collage-swiper' : 'collage-swiper--hidden'}
+		className={book?.images?.length > 1 ? 'collage-swiper' : 'collage-swiper--hidden'}
 	>
-		{book.otherImage?.length >= 2 &&
-			book.otherImage.map((img) => (
+		{book?.images?.length > 1 &&
+			book.images.map((img) => (
 				<SwiperSlide data-test-id='slide-mini'>
 					<button
 						type='button'
 						className='collage-swiper__btn'
 						onClick={() => {
-							setImage(img);
+							setImage(img.url);
 						}}
 					>
-						<img className='swiper__picture' src={img} alt='Обложка' />
+						<img className='swiper__picture' src={`https://strapi.cleverland.by${img.url}`} alt='Обложка' />
 					</button>
 				</SwiperSlide>
 			))}

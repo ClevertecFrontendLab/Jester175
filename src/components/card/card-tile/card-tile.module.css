@@ -1,6 +1,7 @@
 .card {
 	display: flex;
 	flex-direction: column;
+    justify-content: center;
 	padding: 8px 8px 16px;
 	width: 100%;
 	max-width: 190px;
@@ -12,12 +13,18 @@
 }
 
 .picture {
+    display: flex;
+    align-items: center;
 	margin-bottom: 16px;
+    width: 100%;
 	max-width: 174px;
+    height: 242px;
+    border-radius: 10px;
 }
 
-.img {
-	width: 100%;
+.picture img{
+    width: 100%;
+    max-height: 242px;
 }
 
 .estimation {
@@ -52,11 +59,16 @@
 
 .author {
 	margin-top: auto;
+    display: -webkit-box;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
 	font-weight: 400;
 	font-size: 14px;
 	line-height: 18px;
 	letter-spacing: 0.1px;
 	text-transform: capitalize;
+    text-overflow: ellipsis;
+    overflow: hidden;
 	color: #727272;
 }
 

@@ -1,30 +1,52 @@
+import { user } from 'assets/images/user';
 import { Rating } from 'components/card/rating';
 
 import styles from './comment.module.css';
 
-export const Comment = ({ book, user }) => (
-	<div className={styles.user}>
-		<div className={styles.reviewer}>
-			<img src={user.avatar} alt='Пользователь' className={styles.avatar} />
-			<div className={styles.contact}>
-				<span className={styles.nickname}>{user.name}</span>
-				<span className={styles.date}>{user.date}</span>
+export const Comment = ({ comment }) => {
+	const years = [
+        'null',
+		'январь',
+		'февраль',
+		'март',
+		'апрель',
+		'май',
+		'июнь',
+		'июль',
+		'август',
+		'сентябрь',
+		'октябрь',
+		'ноябрь',
+		'декабрь',
+	];
+
+    const formatDate = () => {
+        const localeDate = new Date(comment.createdAt).toLocaleDateString().split('.');
+        const year = new Date(comment.createdAt).getFullYear();
+        const day = localeDate[0];
+        const month = years[localeDate[1].slice(1,2)]
+
+        return `${day} ${month} ${year}`;
+    }
+
+	return (
+		<div className={styles.user}>
+			{}
+			<div className={styles.reviewer}>
+				<img
+					src={comment?.user?.avatarUrl ? `https://strapi.cleverland.by${comment.user.avatarUrl}` : user}
+					alt='Пользователь'
+					className={styles.avatar}
+				/>
+				<div className={styles.contact}>
+					<span className={styles.nickname}>{`${comment.user.firstName} ${comment.user.lastName}`}</span>
+					<span className={styles.date}>{formatDate()}</span>
+				</div>
 			</div>
+			<div className={styles.estimation}>
+				<Rating length={Math.round(comment.rating) ?? 0} />
+			</div>
+			{!!comment.text && <p className={styles.descr}>{comment.text}</p>}
 		</div>
-		<div className={styles.estimation}>
-			<Rating length={book.estimate ?? 0} />
-		</div>
-		{!!user.comment && (
-			<p className={styles.descr}>
-				Учитывая ключевые сценарии поведения, курс на&nbsp;социально-ориентированный национальный проект
-				не&nbsp;оставляет шанса для анализа существующих паттернов поведения. Для современного мира внедрение
-				современных методик предоставляет широкие возможности для позиций, занимаемых участниками в&nbsp;отношении
-				поставленных задач. Как уже неоднократно упомянуто, сделанные на&nbsp;базе интернет-аналитики выводы будут
-				в&nbsp;равной степени предоставлены сами себе. Вот вам яркий пример современных тенденций&nbsp;&mdash; глубокий
-				уровень погружения создаёт предпосылки для своевременного выполнения сверхзадачи. И&nbsp;нет сомнений, что
-				акционеры крупнейших компаний, инициированные исключительно синтетически, превращены в&nbsp;посмешище, хотя само
-				их&nbsp;существование приносит несомненную пользу обществу.
-			</p>
-		)}
-	</div>
-);
+	);
+};
