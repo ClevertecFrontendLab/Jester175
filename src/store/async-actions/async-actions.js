@@ -7,50 +7,38 @@ import { showModalError } from 'store/modal-error-reducer';
 
 const strapi = new Strapi();
 
-export const fetchCategories = () => async (dispatch) => {
-	try {
-		const response = await strapi.getCategories();
-
-        if(response.error){
-            throw new Error()
-        }else {
-            dispatch(addCategories(response));
-            dispatch(setLoading(false));
-        }
-	} catch (e) {
-		dispatch(showModalError(true));
-        dispatch(setLoading(false));
-	}
-};
-
 export const fetchBooks = () => async (dispatch) => {
 	try {
         const response = await strapi.getBooks();
 
-        if(response.error){
-            throw new Error()
-        }else {
-            dispatch(addBooks(response));
-            dispatch(setLoading(false));
-        }
+        dispatch(addBooks(response));
 	} catch (e) {
+		dispatch(showModalError(true));
+	} finally {
         dispatch(setLoading(false));
+    }
+};
+
+export const fetchCategories = () => async (dispatch) => {
+    dispatch(setLoading(true));
+	try {
+		const response = await strapi.getCategories();
+
+        dispatch(addCategories(response));
+	} catch (e) {
 		dispatch(showModalError(true));
 	}
 };
 
 export const fetchBook = (id) => async (dispatch) => {
+    dispatch(setLoading(true));
 	try {
         const response = await strapi.getBook(id);
 
-        if(response.error){
-            throw new Error()
-        }else {
-            dispatch(addBook(response));
-            dispatch(setLoading(false));
-        }
+        dispatch(addBook(response));
 	} catch (e) {
-        dispatch(setLoading(false));
 		dispatch(showModalError(true));
-	}
+	} finally {
+        dispatch(setLoading(false));
+    }
 };

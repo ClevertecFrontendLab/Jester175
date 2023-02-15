@@ -1,5 +1,5 @@
 const stateDefault = {
-	modalErr: false,
+	modalErr: false
 };
 
 const ERROR_MODAL = 'ERROR_MODAL';

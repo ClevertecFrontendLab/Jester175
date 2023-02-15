@@ -1,5 +1,5 @@
 const stateDefault = {
-	isLoading: true,
+	isLoading: false,
 };
 
 const LOADING = 'LOADING';
