@@ -5,8 +5,6 @@ import styles from './breadcrumbs.module.css';
 export const BreadCrumbs = ({ book }) => {
     const { category } = useParams();
 
-	// const extractBookCategory = categories.find(item => item.path === category)?.name;
-
 	return (
 		<div className={styles.breadcrumbs}>
 			<span>{category}</span>
