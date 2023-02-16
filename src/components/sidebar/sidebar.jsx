@@ -2,18 +2,15 @@ import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink, useParams } from 'react-router-dom';
 import { IconArrow } from 'assets/images/sidebar';
-import { toggleAccordion } from 'store/accordion-reducer';
-import { fetchCategories } from 'store/async-actions';
-import { toggleBurgerMenu } from 'store/burger-reducer';
+import { toggleAccordion, toggleBurgerMenu } from 'store/toggle-reducer';
 
 import styles from './sidebar.module.css';
 
 export const Sidebar = () => {
 	const dispatch = useDispatch();
-	const isBurger = useSelector((state) => state.burger.isBurger);
-	const isAccordion = useSelector((state) => state.accordion.isAccordion);
+	const isBurger = useSelector((state) => state.toggle.isBurger);
+	const isAccordion = useSelector((state) => state.toggle.isAccordion);
 	const categories = useSelector((state) => state.categories.categories);
-    const isError = useSelector((state) => state.modalError.modalErr);
 
 	const setActive = ({ isActive }) => (isActive ? styles['item--active'] : styles.item);
 

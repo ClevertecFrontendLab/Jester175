@@ -3,7 +3,7 @@ import { addBooks } from 'store/books-reducer';
 import { addCategories } from 'store/categories-reducer';
 import { addBook } from 'store/current-book-reducer';
 import { setLoading } from 'store/loader-reducer';
-import { showModalError } from 'store/modal-error-reducer';
+import { showModalError } from 'store/modal-reducer';
 
 const strapi = new Strapi();
 

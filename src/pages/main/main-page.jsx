@@ -5,19 +5,16 @@ import { IconList, IconLoupe, IconTile } from 'assets/images/main/sort';
 import { IconClose } from 'assets/images/main/sort/icons';
 import { Card } from 'components/card';
 import { fetchBooks, fetchCategories } from 'store/async-actions';
-import { clickCardView } from 'store/card-reducer';
-import { setLoading } from 'store/loader-reducer';
-import { clickSearch } from 'store/search-reducer';
+import { clickCardView, clickSearch } from 'store/toggle-reducer';
 
 import styles from './main-page.module.css';
 
 export const MainPage = () => {
 	const dispatch = useDispatch();
-	const isSearch = useSelector((state) => state.search.isSearch);
-	const cardView = useSelector((state) => state.card.cardView);
+	const isSearch = useSelector((state) => state.toggle.isSearch);
+	const cardView = useSelector((state) => state.toggle.cardView);
 	const books = useSelector((state) => state.books.books);
 	const categories = useSelector((state) => state.categories.categories);
-	const isError = useSelector((state) => state.modalError.modalErr);
 
 	const { category } = useParams();
 
@@ -49,7 +46,7 @@ export const MainPage = () => {
 		ref.current.value = '';
 	};
 
-	return (
+	return visibleItems.length ? (
 		<section className={styles.page}>
 			<div className={styles.sort}>
 				<div className={styles.inputs}>
@@ -113,19 +110,19 @@ export const MainPage = () => {
 				</div>
 			</div>
 			<div className={styles[cardView]}>
-				{visibleItems.error
-					? ''
-					: visibleItems.map((book) => (
-							<Link
-								to={`/books/${book.categories}/${book.id}`}
-								key={book.id}
-								data-test-id='card'
-								className={styles.linkCard}
-							>
-								<Card key={book.id} book={book} groupBy={cardView} />
-							</Link>
-					  ))}
+				{visibleItems.map((book) => (
+					<Link
+						to={`/books/${category}/${book.id}`}
+						key={book.id}
+						data-test-id='card'
+						className={styles.linkCard}
+					>
+						<Card key={book.id} book={book} groupBy={cardView} />
+					</Link>
+				))}
 			</div>
 		</section>
+	) : (
+		''
 	);
 };

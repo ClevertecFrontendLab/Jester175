@@ -17,21 +17,14 @@
 .loader {
 	width: 68.75px;
 	height: 68.75px;
-	border-radius: 100%;
-	border: 10px dotted transparent;
-	border-image: linear-gradient(231.58deg, #f83600 -53.35%, #f9d423 297.76%);
-	border-image-slice: 34;
-	animation: rotate 4s infinite linear;
+	animation: rotate 3s infinite linear;
 }
 
 @keyframes rotate {
 	0% {
-		transform: rotate(0deg) scale(1);
-	}
-	50% {
-		transform: rotate(360deg) scale(1.2);
+		transform: rotate(0deg);
 	}
 	100% {
-		transform: rotate(0deg) scale(1);
+		transform: rotate(360deg);
 	}
 }

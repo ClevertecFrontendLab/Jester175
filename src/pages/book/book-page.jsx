@@ -2,13 +2,12 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { IconArrow } from 'assets/images/book';
-import { bgDefault } from 'assets/images/main/card';
 import { BreadCrumbs } from 'components/breadcrumbs';
 import { Rating } from 'components/card/rating';
 import { CollageSwiper } from 'components/collage-swiper';
 import { Comment } from 'components/comment/';
 import { Sidebar } from 'components/sidebar';
-import { fetchBook } from 'store/async-actions';
+import { fetchBook} from 'store/async-actions';
 import { clickComments } from 'store/comments-reducer';
 
 import styles from './book-page.module.css';
@@ -17,9 +16,10 @@ export const BookPage = () => {
 	const dispatch = useDispatch();
 	const isComments = useSelector((state) => state.comments.isComments);
 	const book = useSelector((state) => state.currentBook.book);
-	const isError = useSelector((state) => state.modalError.modalErr);
+	const isError = useSelector((state) => state.modal.modalErr);
 	const { bookId } = useParams();
 	const { category } = useParams();
+    const baseUrl = 'https://strapi.cleverland.by';
 
 	const btnClickComments = (value) => {
 		dispatch(clickComments(value));
@@ -29,7 +29,7 @@ export const BookPage = () => {
 		dispatch(fetchBook(bookId));
 	}, [bookId, dispatch]);
 
-	const [currentImage, setCurrentImage] = useState(book?.images?.[0]?.url);
+	const [currentImage, setCurrentImage] = useState(null);
 
 	const setImage = (value) => {
 		setCurrentImage(value);
@@ -52,7 +52,7 @@ export const BookPage = () => {
 					<div className={styles.preview}>
 						<div className={styles.preview__picture}>
 							<img
-								src={currentImage ? `https://strapi.cleverland.by${currentImage}` : bgDefault}
+								src={currentImage ?? `${baseUrl}${book?.images?.[0]?.url}`}
 								className={book?.images?.length >= 2 ? `${styles['preview__img--hidden']}` : null}
 								alt='Обложка'
 							/>

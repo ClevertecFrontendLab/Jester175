@@ -1,12 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { IconClose, IconError } from 'assets/images/error';
-import { showModalError } from 'store/modal-error-reducer';
+import { showModalError } from 'store/modal-reducer';
 
 import styles from './modal-error.module.css';
 
 export const ModalErr = () => {
 	const dispatch = useDispatch();
-	const isError = useSelector((state) => state.modalError.modalErr);
+	const isError = useSelector((state) => state.modal.modalErr);
 
 	return (
 		<div className={isError ? styles.wrapper : styles['wrapper--hidden']} data-test-id='error'>

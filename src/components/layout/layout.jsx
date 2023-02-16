@@ -9,7 +9,7 @@ import { Header } from '../header/header';
 import styles from './layout.module.css';
 
 export const Layout = () => {
-	const isBurger = useSelector(state => state.burger.isBurger);
+	const isBurger = useSelector(state => state.toggle.isBurger);
 
 	if (isBurger) {
 		document.body.style.overflow = 'hidden';
