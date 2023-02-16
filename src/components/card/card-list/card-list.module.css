@@ -1,0 +1,142 @@
+.card {
+	display: flex;
+	padding: 24px 24px 24px 16px;
+	gap: 16px;
+	width: 100%;
+	background: #ffffff;
+	cursor: pointer;
+	box-shadow: 0px 2px 4px rgba(191, 196, 201, 0.2), 0px 3px 4px rgba(191, 196, 201, 0.18),
+		0px 1px 5px rgba(191, 196, 201, 0.24);
+	border-radius: 10px;
+}
+
+.picture {
+	width: 120px;
+	border-radius: 3px;
+}
+
+.picture img {
+    width: 100%;
+    max-height: 170px;
+}
+
+.content {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	min-height: 156px;
+}
+
+.title {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+	margin-bottom: auto;
+	font-weight: 700;
+	font-size: 22px;
+	line-height: 32px;
+	color: #363636;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.author {
+    display: -webkit-box;
+	-webkit-line-clamp: 1;
+	-webkit-box-orient: vertical;
+	text-transform: capitalize;
+    text-overflow: ellipsis;
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 24px;
+	color: #727272;
+}
+
+.bottom {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+    flex-wrap: wrap;
+	margin-top: 24px;
+}
+
+.estimation {
+	display: flex;
+	gap: 5px;
+    font-weight: 400;
+	font-size: 16px;
+	line-height: 24px;
+}
+
+.btn {
+	padding: 11px 23px;
+	border: 1px solid transparent;
+	background: linear-gradient(231.58deg, #f83600 -53.35%, #f9d423 297.76%);
+	border-radius: 20px;
+	font-weight: 600;
+	font-size: 12px;
+	line-height: 18px;
+	letter-spacing: 0.2px;
+	text-transform: uppercase;
+	color: #ffffff;
+	cursor: pointer;
+}
+
+.btn-order {
+	border: 1px solid #bfc4c9;
+	background: #f9f9fa;
+	color: #a7a7a7;
+	padding: 11px 23px;
+	border-radius: 20px;
+	font-weight: 600;
+	font-size: 12px;
+	line-height: 18px;
+	letter-spacing: 0.2px;
+	text-transform: uppercase;
+	cursor: pointer;
+}
+
+@media (max-width: 576px) {
+	.card {
+		padding: 16px 16px 16px 8px;
+		max-width: 100%;
+        gap: 8px;
+	}
+
+	.card .btn-order,
+	.card .btn {
+        margin-top: 16px;
+        width: 100%;
+		max-width: 256px;
+	}
+
+    .picture {
+        max-width: 70px;
+    }
+
+	.title {
+        margin-bottom: 3px;
+		font-size: 14px;
+		line-height: 18px;
+	}
+
+    .content {
+        min-height: 114px;
+    }
+
+    .bottom {
+        align-items: flex-start;
+        flex-direction: column;
+        margin-top: 0;
+    }
+
+	.author {
+        margin-bottom: 3px;
+		font-size: 12px;
+	}
+
+    .estimation img{
+        width: 16px;
+        height: 16px;
+    }
+}
