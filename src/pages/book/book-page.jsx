@@ -15,8 +15,8 @@ import styles from './book-page.module.css';
 export const BookPage = () => {
 	const dispatch = useDispatch();
 	const isComments = useSelector((state) => state.comments.isComments);
-	const book = useSelector((state) => state.currentBook.book);
-	const isError = useSelector((state) => state.modal.modalErr);
+	const book = useSelector((state) => state.data.book);
+    const isBookError = useSelector((state) => state.status.bookError);
 	const { bookId } = useParams();
 	const { category } = useParams();
     const baseUrl = 'https://strapi.cleverland.by';
@@ -45,7 +45,7 @@ export const BookPage = () => {
 					<BreadCrumbs book={book} />
 				</div>
 			</div>
-			{isError ? (
+			{isBookError ? (
 				''
 			) : (
 				<div className={book ? styles.container : styles.hidden}>
@@ -59,7 +59,7 @@ export const BookPage = () => {
 							<CollageSwiper book={book} setImage={setImage} />
 						</div>
 						<div className={styles.preview__view}>
-							<h2 className={styles.preview__title}>{book?.title}</h2>
+							<h2 className={styles.preview__title} data-test-id='book-title'>{book?.title}</h2>
 							<p className={styles.preview__author}>
 								{book?.authors?.map((author) => `${author}, `)} {book?.issueYear}
 							</p>
