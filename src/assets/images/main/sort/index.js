@@ -1,1 +1,1 @@
-export { IconTile, IconList, IconLoupe } from './icons'
+export { IconTile, IconList, IconLoupe, IconSort } from './icons'
