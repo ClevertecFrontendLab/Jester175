@@ -10,7 +10,15 @@ export const Sidebar = () => {
 	const dispatch = useDispatch();
 	const isBurger = useSelector((state) => state.toggle.isBurger);
 	const isAccordion = useSelector((state) => state.toggle.isAccordion);
-	const categories = useSelector((state) => state.categories.categories);
+	const categories = useSelector((state) => state.data.categories);
+	const books = useSelector((state) => state.data.books);
+	const isCategoriesError = useSelector((state) => state.status.categoriesError);
+	const sidebarCategories = [];
+
+	categories.forEach((item) => {
+		sidebarCategories.push(item.path);
+	});
+	sidebarCategories[0] = 'books';
 
 	const setActive = ({ isActive }) => (isActive ? styles['item--active'] : styles.item);
 
@@ -20,6 +28,18 @@ export const Sidebar = () => {
 
 	const clickAccordion = (value) => {
 		dispatch(toggleAccordion(value));
+	};
+
+	const countEachCategory = () => {
+		const arrCountEachCategory = [];
+
+		categories.forEach((itemC) => {
+			arrCountEachCategory.push(books.filter((book) => book.categories.find((item) => item === itemC.name)).length);
+		});
+
+		arrCountEachCategory[0] = null;
+
+		return arrCountEachCategory;
 	};
 
 	const menuRef = useRef();
@@ -62,20 +82,45 @@ export const Sidebar = () => {
 						</span>
 					</NavLink>
 					<ul className={isAccordion ? styles.sublist : styles['sublist--hidden']}>
-						{categories
-							? categories.map(({ name, path }) => (
+						{isCategoriesError
+							? ''
+							: categories.map(({ name, path }, index) => (
 									<li
 										className={category === path ? `${styles.subitem} ${styles['subitem--active']}` : styles.subitem}
-										data-test-id='navigation-books'
 										key={name}
 									>
-										<Link to={`/books/${path}`} data-path='data' data-test-id='burger-books' onClick={clickSidebar}>
+										<Link
+											to={`/books/${path}`}
+											data-path='data'
+                                            className={styles['subitem--link']}
+											data-test-id={`navigation-${sidebarCategories[index]}`}
+											onClick={clickSidebar}
+										>
 											{name}
-											<span className={styles.count}>{Math.round(Math.random() * 54)}</span>
 										</Link>
+										<Link
+											className={styles['subitem__burger--link']}
+											to={`/books/${path}`}
+											data-path='data'
+											data-test-id={`burger-${sidebarCategories[index]}`}
+											onClick={clickSidebar}
+										>
+											{name}
+										</Link>
+										<span
+											className={styles.count}
+											data-test-id={`navigation-book-count-for-${sidebarCategories[index]}`}
+										>
+											{countEachCategory()[index]}
+										</span>
+										<span
+											className={styles['count--burger']}
+											data-test-id={`burger-book-count-for-${sidebarCategories[index]}`}
+										>
+											{countEachCategory()[index]}
+										</span>
 									</li>
-							  ))
-							: ''}
+							  ))}
 					</ul>
 				</li>
 				<li className={styles.item} data-test-id='navigation-terms'>
