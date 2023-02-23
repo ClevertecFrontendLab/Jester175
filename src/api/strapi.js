@@ -1,4 +1,5 @@
 export class Strapi {
+
 	baseUrl = 'https://strapi.cleverland.by';
 
 	getCategories = async () => {
