@@ -1,8 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import avatar from 'assets/images/header/avatar.jpg';
 import { toggleBurgerMenu } from 'store/toggle-reducer';
 
-import avatar from '../../assets/images/header/header_avatar.svg';
 import logo from '../../assets/images/header/logo.svg';
 
 import styles from './header.module.css';

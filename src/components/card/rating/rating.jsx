@@ -7,14 +7,15 @@ export const Rating = ({ length }) => {
 
   const starRating = new Array(length)
     .fill(null)
-    .map((_, i) => <img key={Math.random() * length} src={star} alt='оценка' />);
+    .map((_, i) => <img src={star} alt='оценка' />);
 
   const missingStarsLength = 5 - starRating.length;
 
   if (starRating.length !== fullStarsLength) {
     const missingStars = new Array(missingStarsLength)
       .fill(null)
-      .map(() => <img key={Math.random() * length} src={starWhite} alt='нет оценки' />);
+      .map(() => <img src={starWhite} alt='нет оценки' />);
+
     return starRating.concat(missingStars);
   }
 

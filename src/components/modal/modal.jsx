@@ -1,18 +1,21 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { IconClose, IconError } from 'assets/images/error';
-import { showModalError } from 'store/modal-reducer';
+import { showModal } from 'store/status-reducer';
 
-import styles from './modal-error.module.css';
+import styles from './modal.module.css';
 
-export const ModalErr = () => {
+export const Modal = () => {
 	const dispatch = useDispatch();
-	const isError = useSelector((state) => state.modal.modalErr);
+	const isModal = useSelector((state) => state.status.isModal);
 
 	return (
-		<div className={isError ? styles.wrapper : styles['wrapper--hidden']} data-test-id='error'>
+		<div
+			className={ isModal ? styles.wrapper : styles['wrapper--hidden']}
+			data-test-id='error'
+		>
 			<span className={styles.errorIcon}>{IconError}</span>
 			<span className={styles.message}>Что-то пошло не так. Обновите страницу через некоторое время.</span>
-			<button type='button' className={styles.crossIcon} onClick={() => dispatch(showModalError(false))}>
+			<button type='button' className={styles.crossIcon} onClick={() => dispatch(showModal(false))}>
 				{IconClose}
 			</button>
 		</div>
