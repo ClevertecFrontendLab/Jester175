@@ -125,7 +125,7 @@ export const SignUpThirdStep = () => {
 			</div>
 			<button
 				disabled={disabled}
-				className={disabled ? `${styles.form__btn} ${styles.disabled}` : styles.form__btn}
+				className={styles.form__btn}
 				type='submit'
 			>
 				зарегистрироваться

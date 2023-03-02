@@ -34,8 +34,8 @@ export const SignUpFirstStep = ({ changeStep }) => {
 
 	useEffect(() => {
 		const subscription = watch((value) => {
-			setLogin(value.login);
-			setPassword(value.password);
+			setLogin(value?.login);
+			setPassword(value?.password);
 		});
 
 		return () => subscription.unsubscribe();
@@ -254,7 +254,7 @@ export const SignUpFirstStep = ({ changeStep }) => {
 							onBlur: (e) => onBlurLogin(e.target.value),
 						})}
 						value={login}
-						onFocus={() => onFocusLogin()}
+						onFocus={onFocusLogin}
 						type='text'
 						name='login'
 						className={isLoginValid ? styles.input : `${styles.error} ${styles.input}`}
@@ -268,7 +268,7 @@ export const SignUpFirstStep = ({ changeStep }) => {
 							required: true,
 							onBlur: (e) => onBlurPassword(e.target.value),
 						})}
-						onFocus={() => onFocusPassword()}
+						onFocus={onFocusPassword}
 						type={toggle ? 'text' : 'password'}
 						className={isPasswordValid ? styles.input : `${styles.error} ${styles.input}`}
 						placeholder='Пароль'
@@ -284,7 +284,7 @@ export const SignUpFirstStep = ({ changeStep }) => {
 			</div>
 			<button
 				disabled={disabled}
-				className={disabled ? `${styles.form__btn} ${styles.disabled}` : styles.form__btn}
+				className={styles.form__btn}
 				type='submit'
 				onClick={handleClick}
 			>

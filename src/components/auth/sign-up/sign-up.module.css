@@ -113,7 +113,7 @@
 	border-bottom: 1px solid #f42c4f;
 }
 
-.disabled {
+.form__btn:disabled {
 	background: #ebebeb;
 }
 
@@ -141,12 +141,12 @@
 }
 
 .form__okey {
-    display: none;
+	display: none;
 	position: absolute;
 	top: 16px;
 	right: 44px;
 }
 
 .form__okey--active {
-    display: inline;
+	display: inline;
 }

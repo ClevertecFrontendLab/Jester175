@@ -6,13 +6,13 @@ import { IconArrow } from 'assets/images/auth';
 import styles from '../sign-up.module.css';
 
 export const SignUpSecondStep = ({ changeStep }) => {
-	const [disabled, setDisabled] = useState(false);
 
-	const {
-		register,
+    const {
+        register,
 		formState: { errors },
 	} = useForm({ mode: 'onBlur' });
 
+    const [disabled, setDisabled] = useState(false);
     const [firstname, setFirstname] = useState('');
 	const [lastname, setLastname] = useState('');
 
@@ -70,11 +70,11 @@ export const SignUpSecondStep = ({ changeStep }) => {
 			</div>
 			<button
 				disabled={disabled}
-				className={disabled ? `${styles.form__btn} ${styles.disabled}` : styles.form__btn}
+				className={styles.form__btn}
 				type='submit'
 				onClick={handleClick}
 			>
-				следующий шаг
+				последний шаг
 			</button>
 			<div className={styles.from__text}>
 				<Link className={styles.form__account}>Есть учётная запись?</Link>
