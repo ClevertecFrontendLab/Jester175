@@ -1,0 +1,152 @@
+.form {
+	margin: 0;
+	margin-top: 46px;
+	padding: 48px 56px;
+	width: 100%;
+	max-width: 528px;
+	background: #ffffff;
+	border-radius: 16px;
+}
+
+.form__title {
+	margin: 0;
+	margin-bottom: 8px;
+	font-weight: 700;
+	font-size: 24px;
+	line-height: 30px;
+	letter-spacing: 0.1px;
+	color: #363636;
+}
+
+.form__steps {
+	margin: 0;
+	font-weight: 600;
+	font-size: 14px;
+	line-height: 18px;
+	letter-spacing: 0.1px;
+	color: #363636;
+}
+
+.form__inputs {
+	display: flex;
+	flex-direction: column;
+	gap: 16px 0;
+	margin: 32px 0 0 0;
+}
+
+.form__btn {
+	margin: 0;
+	margin-top: 32px;
+	margin-bottom: 16px;
+	padding: 14px 0px;
+	width: 100%;
+	font-weight: 600;
+	font-size: 16px;
+	line-height: 150%;
+	letter-spacing: 0.2px;
+	text-transform: uppercase;
+	color: #ffffff;
+	background: linear-gradient(231.58deg, #f83600 -53.35%, #f9d423 297.76%);
+	border: none;
+	border-radius: 30px;
+	cursor: pointer;
+}
+
+.form__restore {
+	margin: 0;
+	padding-left: 12px;
+	font-weight: 500;
+	font-size: 12px;
+	line-height: 16px;
+	letter-spacing: 0.2px;
+	color: #a7a7a7;
+}
+
+.from__text {
+	display: flex;
+	align-items: center;
+	gap: 16px;
+}
+
+.form__account {
+	margin: 0;
+	font-weight: 400;
+	font-size: 16px;
+	line-height: 24px;
+	text-align: center;
+	letter-spacing: 0.1px;
+	color: #727272;
+	cursor: pointer;
+}
+
+.form__action {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	font-weight: 600;
+	font-size: 12px;
+	line-height: 18px;
+	text-align: center;
+	letter-spacing: 0.2px;
+	text-transform: uppercase;
+	color: #363636;
+	cursor: pointer;
+}
+
+.wrapper__input {
+	position: relative;
+	margin-bottom: 20px;
+}
+
+.input {
+	margin: 0;
+	padding: 19px 12px;
+	width: 100%;
+	border: none;
+	background: #f9f9fa;
+	border-radius: 4px;
+	border-bottom: 1px solid #bfc4c9;
+	outline: none;
+}
+
+.error {
+	border-bottom: 1px solid #f42c4f;
+}
+
+.disabled {
+	background: #ebebeb;
+}
+
+.tooltip {
+	margin: 0;
+	padding-top: 2px;
+	padding-left: 12px;
+	font-weight: 500;
+	font-size: 12px;
+	line-height: 16px;
+	letter-spacing: 0.2px;
+	color: #a7a7a7;
+}
+
+.form__eye {
+	position: absolute;
+	top: 16px;
+	right: 16px;
+	background-color: transparent;
+	width: 24px;
+	height: 24px;
+	border: none;
+	outline: none;
+	cursor: pointer;
+}
+
+.form__okey {
+    display: none;
+	position: absolute;
+	top: 16px;
+	right: 44px;
+}
+
+.form__okey--active {
+    display: inline;
+}
