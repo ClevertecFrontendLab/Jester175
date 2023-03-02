@@ -40,6 +40,7 @@ export const Header = () => {
 							<p className={styles.descr}>Привет, Иван!</p>
 							<img src={avatar} alt='Аватарка' className={styles.avatar} />
 						</div>
+                        <Link to='/auth' >Log in</Link>
 					</div>
 				</div>
 			</div>
