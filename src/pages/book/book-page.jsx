@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { IconArrow } from 'assets/images/book';
 import { BreadCrumbs } from 'components/breadcrumbs';
 import { Rating } from 'components/card/rating';
@@ -20,14 +20,17 @@ export const BookPage = () => {
 	const { bookId } = useParams();
 	const { category } = useParams();
     const baseUrl = 'https://strapi.cleverland.by';
+    const navigate = useNavigate();
 
 	const btnClickComments = (value) => {
 		dispatch(clickComments(value));
 	};
 
 	useEffect(() => {
-		dispatch(fetchBook(bookId));
-	}, [bookId, dispatch]);
+        if(localStorage.getItem('jwt')) dispatch(fetchBook(bookId));
+        else navigate('/auth');
+
+	}, [bookId, dispatch, navigate]);
 
 	const [currentImage, setCurrentImage] = useState(null);
 
