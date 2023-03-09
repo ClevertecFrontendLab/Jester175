@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, NavLink, useParams } from 'react-router-dom';
+import { Link, NavLink, useNavigate, useParams } from 'react-router-dom';
 import { Strapi } from 'api/strapi';
 import { IconArrow } from 'assets/images/sidebar';
 import {toggleAuth} from 'store/auth-reducer';
@@ -16,6 +16,7 @@ export const Sidebar = () => {
 	const books = useSelector((state) => state.data.books);
 	const isCategoriesError = useSelector((state) => state.status.categoriesError);
 	const sidebarCategories = [];
+    const navigate = useNavigate();
 
 	categories.forEach((item) => {
 		sidebarCategories.push(item.path);
@@ -65,6 +66,7 @@ export const Sidebar = () => {
     const handleClickLogOut = () => {
         Strapi.authLoginOut();
         dispatch(toggleAuth({authorized: false}));
+        navigate('/auth');
     }
 
 	return (
@@ -153,9 +155,9 @@ export const Sidebar = () => {
 					</NavLink>
 				</li>
 				<li className={styles.item}>
-					<NavLink className={setActive} onClick={handleClickLogOut}>
+					<button type='button' className={styles.btnLogout} onClick={handleClickLogOut}>
 						Выход
-					</NavLink>
+					</button>
 				</li>
 			</ul>
 		</aside>
