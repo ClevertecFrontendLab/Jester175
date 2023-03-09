@@ -19,8 +19,10 @@
 }
 
 .profile {
+	position: relative;
 	display: flex;
 	align-items: center;
+	cursor: pointer;
 }
 
 .section {
@@ -67,6 +69,7 @@
 	padding: 6.67px 2.67px;
 	width: 32px;
 	height: 32px;
+    cursor: pointer;
 }
 
 .burger__line {
@@ -77,50 +80,81 @@
 }
 
 .burger--active {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
 	margin-right: 24px;
 	padding: 6.67px 2.67px;
 	min-width: 32px;
 	height: 32px;
-    background-color: transparent;
-    border: none;
+	background-color: transparent;
+	border: none;
+    cursor: pointer;
 }
 
 .burger--active .burger__line {
-    position: absolute;
-    width: 100%;
-    background: linear-gradient(231.58deg, #F83600 -53.35%, #F9D423 297.76%);
-    transition: all .3s ease-in-out ;
+	position: absolute;
+	width: 100%;
+	background: linear-gradient(231.58deg, #f83600 -53.35%, #f9d423 297.76%);
+	transition: all 0.3s ease-in-out;
 }
 
-.burger--active .burger__line:nth-child(1){
-    transform: rotate(135deg);
+.burger--active .burger__line:nth-child(1) {
+	transform: rotate(135deg);
 }
 
-.burger--active .burger__line:nth-child(2){
-    display: none;
+.burger--active .burger__line:nth-child(2) {
+	display: none;
 }
 
-.burger--active .burger__line:nth-child(3){
-    transform: rotate(45deg);
+.burger--active .burger__line:nth-child(3) {
+	transform: rotate(45deg);
 }
 
+.controls {
+	position: absolute;
+	right: 0;
+	bottom: -167px;
+	display: flex;
+	flex-direction: column;
+	gap: 32px;
+	align-items: flex-end;
+	padding: 32px 24px;
+	min-width: 270px;
+	background: #ffffff;
+	box-shadow: 4px 4px 4px rgba(54, 54, 54, 0.05), -4px 4px 4px rgba(54, 54, 54, 0.05);
+	border-radius: 0px 0px 10px 10px;
+	z-index: 10;
+}
 
+.controlsBtn {
+	border: none;
+	font-weight: 700;
+	font-size: 18px;
+	line-height: 28px;
+	letter-spacing: 0.1px;
+	background: #ffffff;
+	color: #363636;
+	cursor: pointer;
+}
+
+.sectionActive {
+	box-shadow: 4px 4px 4px rgba(54, 54, 54, 0.05), -4px 4px 4px rgba(54, 54, 54, 0.05);
+    transition: .3 ease-in-out;
+}
 
 @media (max-width: 950px) {
-    .logo,
+	.logo,
 	.profile {
 		display: none;
 	}
 
-    .burger {
+	.burger {
 		display: flex;
-        background-color: transparent;
-        border: none;
+		background-color: transparent;
+		border: none;
 	}
 }
 
@@ -150,11 +184,11 @@
 		height: 24px;
 	}
 
-    .burger--active {
-        padding: 5px 2px;
+	.burger--active {
+		padding: 5px 2px;
 		min-width: 24px;
 		height: 24px;
-    }
+	}
 
 	.burger__line {
 		width: 20px;
