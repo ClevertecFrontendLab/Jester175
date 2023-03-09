@@ -1,4 +1,7 @@
+import {v4} from 'uuid';
+
 import { star, starWhite } from '../../../assets/images/main/card';
+
 
 export const Rating = ({ length }) => {
   if (!length) return 'ещё нет оценок';
@@ -7,14 +10,14 @@ export const Rating = ({ length }) => {
 
   const starRating = new Array(length)
     .fill(null)
-    .map((_, i) => <img src={star} alt='оценка' />);
+    .map((_, i) => <img src={star} key={v4()} alt='оценка' />);
 
   const missingStarsLength = 5 - starRating.length;
 
   if (starRating.length !== fullStarsLength) {
     const missingStars = new Array(missingStarsLength)
       .fill(null)
-      .map(() => <img src={starWhite} alt='нет оценки' />);
+      .map(() => <img src={starWhite} key={v4()} alt='нет оценки' />);
 
     return starRating.concat(missingStars);
   }
