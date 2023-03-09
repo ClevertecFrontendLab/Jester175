@@ -52,7 +52,9 @@ export const fetchLogin = (data) => async (dispatch) => {
 
 	} catch (error) {
 		dispatch(toggleAuth({status: error.response.status}));
-	}
+	}finally {
+        dispatch(setLoading(false));
+    }
 };
 export const fetchRegistration = (data) => async (dispatch) => {
 	dispatch(setLoading(true));

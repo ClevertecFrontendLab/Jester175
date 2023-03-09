@@ -39,7 +39,6 @@ export const CardTile = ({ book, query }) => {
 					{book.authors.map((author) => `${author}, `)} {book.issueYear}
 				</p>
 			</div>
-            {console.log(book.delivery)};
 			<button className={styles[book.delivery ? 'btn-order' : book.booking ? 'btn-order' : 'btn']} type='button'>
 				{book.delivery ? `Занята до ${formatDate(book?.delivery?.dateHandedTo)}` : book.booking ? 'Забронирована' : 'Забронировать'}
 			</button>

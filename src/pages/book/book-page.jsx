@@ -9,6 +9,7 @@ import { Comment } from 'components/comment/';
 import { Sidebar } from 'components/sidebar';
 import { fetchBook} from 'store/async-actions';
 import { clickComments } from 'store/comments-reducer';
+import {v4} from 'uuid';
 
 import styles from './book-page.module.css';
 
@@ -35,7 +36,7 @@ export const BookPage = () => {
 	const [currentImage, setCurrentImage] = useState(null);
 
 	const setImage = (value) => {
-		setCurrentImage(value);
+		setCurrentImage(`${baseUrl}${value}`);
 	};
 
     const formatDate = (date) => {
@@ -174,7 +175,7 @@ export const BookPage = () => {
 								}
 							>
 								{book?.comments?.map((comment) => (
-									<Comment comment={comment} />
+									<Comment key={v4()} comment={comment} />
 								))}
 							</div>
 						)}
