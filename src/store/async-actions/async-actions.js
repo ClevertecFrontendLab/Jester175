@@ -1,46 +1,68 @@
 import { Strapi } from 'api/strapi';
+import { toggleAuth, toggleRegistration } from 'store/auth-reducer';
 import { addBook, addBooks, addCategories } from 'store/data-reducer';
 import { addBookError, addBooksError, addCategoriesError, setLoading, showModal } from 'store/status-reducer';
 
-const strapi = new Strapi();
-
 export const fetchBooks = () => async (dispatch) => {
 	try {
-        const response = await strapi.getBooks();
+		const response = await Strapi.getBooks();
 
-        if(response.error) throw new Error();
-        dispatch(addBooks(response));
+		dispatch(addBooks(response.data));
 	} catch (e) {
 		dispatch(addBooksError(true));
 		dispatch(showModal(true));
 	} finally {
-        dispatch(setLoading(false));
-    }
+		dispatch(setLoading(false));
+	}
 };
 
 export const fetchCategories = () => async (dispatch) => {
 	try {
-		const response = await strapi.getCategories();
+		const response = await Strapi.getCategories();
 
-        if(response.error) throw new Error();
-        dispatch(addCategories(response));
+		dispatch(addCategories(response.data));
 	} catch (e) {
 		dispatch(addCategoriesError(true));
-        dispatch(showModal(true));
+		dispatch(showModal(true));
 	}
 };
 
 export const fetchBook = (id) => async (dispatch) => {
-    dispatch(setLoading(true));
+	dispatch(setLoading(true));
 	try {
-        const response = await strapi.getBook(id);
+		const response = await Strapi.getBook(id);
 
-        if(response.error) throw new Error();
-        dispatch(addBook(response));
+		dispatch(addBook(response.data));
 	} catch (e) {
 		dispatch(addBookError(true));
-        dispatch(showModal(true));
+		dispatch(showModal(true));
+	} finally {
+		dispatch(setLoading(false));
+	}
+};
+
+export const fetchLogin = (data) => async (dispatch) => {
+	try {
+		const response = await Strapi.authLogin(data);
+
+        localStorage.setItem('jwt', response?.data.jwt);
+
+		dispatch(toggleAuth({authorized: true}));
+        dispatch(toggleAuth({status: response.status}));
+
+	} catch (error) {
+		dispatch(toggleAuth({status: error.response.status}));
+	}
+};
+export const fetchRegistration = (data) => async (dispatch) => {
+	dispatch(setLoading(true));
+	try {
+		const response = await Strapi.authRegistration(data);
+
+		dispatch(toggleRegistration({status: response.status}));
+	} catch (error) {
+		dispatch(toggleRegistration({status: error.response.status}));
 	} finally {
         dispatch(setLoading(false));
-    }
+	}
 };
