@@ -1,6 +1,7 @@
 import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { HashRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { ResponseAuth } from 'components/auth/response';
 import { SignIn } from 'components/auth/sign-in';
 import { SignUp } from 'components/auth/sign-up';
 import { Layout } from 'components/layout';
@@ -20,11 +21,6 @@ root.render(
 	<Provider store={store}>
 		<HashRouter>
 			<Routes>
-				<Route element={<AuthPage />}>
-					<Route path='/' element={<Navigate to='/auth' />} />
-					<Route path='/auth' element={<SignIn />} />
-					<Route path='/registration' element={<SignUp />} />
-				</Route>
 				<Route path='/' element={<Layout />}>
 					<Route element={<LayoutMain />}>
 						<Route path='/' element={<Navigate to='/books/all' />} />
@@ -33,6 +29,12 @@ root.render(
 						<Route path='/contract' element={<Terms title='Договор оферты' />} />
 					</Route>
 					<Route path='/books/:category/:bookId' element={<BookPage />} />
+				</Route>
+                <Route element={<AuthPage />}>
+					<Route path='/' element={<Navigate to='/auth' />} />
+					<Route path='/auth' element={<SignIn />} />
+					<Route path='/registration' element={<SignUp />} />
+					<Route path='/response' element={<ResponseAuth />} />
 				</Route>
 			</Routes>
 		</HashRouter>
