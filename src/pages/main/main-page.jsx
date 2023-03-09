@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { IconList, IconLoupe, IconTile } from 'assets/images/main/sort';
 import { IconClose, IconSort } from 'assets/images/main/sort/icons';
 import { Card } from 'components/card';
@@ -21,6 +21,7 @@ export const MainPage = () => {
 	const categories = useSelector((state) => state.data.categories);
 	const isBooksError = useSelector((state) => state.status.booksError);
 	const [isEmpty, setIsEmpty] = useState(true);
+	const navigate = useNavigate();
 
 	const { category } = useParams();
 	const ref = useRef();
@@ -36,10 +37,13 @@ export const MainPage = () => {
 	useEffect(() => {
 		let ignore = false;
 
-		dispatch(setLoading(true));
-
-		if (!categories.length) dispatch(fetchCategories());
-		if (!ignore) dispatch(fetchBooks());
+		if (localStorage.getItem('jwt')) {
+			dispatch(setLoading(true));
+			if (!categories.length) dispatch(fetchCategories());
+			if (!ignore) dispatch(fetchBooks());
+		} else {
+			navigate('/auth');
+		}
 
 		return () => {
 			ignore = true;
@@ -51,25 +55,24 @@ export const MainPage = () => {
 		if (category === 'all') return books;
 		const currentCategory = categories?.find((item) => item.path === category);
 
-        setIsEmpty(true);
+		setIsEmpty(true);
 
 		return books?.filter((book) => book.categories.find((item) => item === currentCategory?.name));
 	}, [books, category, categories]);
 
 	const searchedData = useMemo(() => {
-        const currentData = filterData.filter((book) => book.title.toLowerCase().includes(searchQuery.toLowerCase()));
+		const currentData = filterData?.filter((book) => book.title.toLowerCase().includes(searchQuery.toLowerCase()));
 
-        if (!currentData.length && searchQuery !== '') setIsEmpty(false);
+		if (!currentData?.length && searchQuery !== '') setIsEmpty(false);
 		else setIsEmpty(true);
 
-        return currentData;
-
+		return currentData;
 	}, [filterData, searchQuery]);
 
 	const sortRatingData = useMemo(() => {
-		if (!isRatingSort) return searchedData.sort((a, b) => b.rating - a.rating);
+		if (!isRatingSort) return searchedData?.sort((a, b) => b.rating - a.rating);
 
-		return searchedData.sort((a, b) => a.rating - b.rating);
+		return searchedData?.sort((a, b) => a.rating - b.rating);
 	}, [searchedData, isRatingSort]);
 
 	return isBooksError ? (
@@ -150,9 +153,9 @@ export const MainPage = () => {
 					</button>
 				</div>
 			</div>
-			<div className={sortRatingData.length ? styles[cardView] : styles.emptyBooksPosition}>
+			<div className={sortRatingData?.length ? styles[cardView] : styles.emptyBooksPosition}>
 				{sortRatingData.length ? (
-					sortRatingData.map((book) => (
+					sortRatingData?.map((book) => (
 						<Link
 							to={`/books/${category}/${book.id}`}
 							key={book.id}
