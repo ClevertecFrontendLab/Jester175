@@ -3,7 +3,7 @@ import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { IconArrow } from 'assets/images/auth';
-import { setData } from 'store/auth-reducer';
+import { setDataReg } from 'store/auth-reducer';
 
 import styles from '../sign-up.module.css';
 
@@ -52,7 +52,7 @@ export const SignUpSecondStep = ({ changeStep }) => {
 
 	const handleClick = () => {
 		if (!disabled && firstname && lastname) {
-			dispatch(setData({ firstName: watch('firstname'), lastName: watch('lastname') }));
+			dispatch(setDataReg({ firstName: watch('firstname'), lastName: watch('lastname') }));
 			changeStep();
 		} else {
 			setDisabled(true);

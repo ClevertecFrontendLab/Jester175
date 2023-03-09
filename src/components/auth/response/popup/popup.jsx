@@ -1,16 +1,33 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
-import { fetchRegistration } from 'store/async-actions/async-actions';
+import { Link, useNavigate } from 'react-router-dom';
+import { fetchLogin, fetchRegistration } from 'store/async-actions/async-actions';
+import { toggleAuth, toggleRegistration } from 'store/auth-reducer';
+import { setLoading } from 'store/status-reducer';
 
 import styles from './popup.module.css';
 
 export const PopupAuth = (props) => {
-	const authStatus = useSelector((state) => state.auth.registration);
+	const regStatus = useSelector((state) => state.auth.registration.status);
+	const authStatus = useSelector((state) => state.auth.auth.status);
     const dispatch = useDispatch();
-	const regData = useSelector((state) => state.auth.data);
+	const regData = useSelector((state) => state.auth.dataReg);
+	const authData = useSelector((state) => state.auth.dataAuth);
+
+    const navigate = useNavigate();
 
     const refreshReg = () => {
-        if(authStatus.error) dispatch(fetchRegistration(regData));
+        if(regStatus) {
+            dispatch(setLoading(true));
+            dispatch(fetchRegistration(regData));
+            dispatch(toggleRegistration({status: null}))
+            navigate('/registration');
+        };
+        if(authStatus) {
+            dispatch(setLoading(true));
+            dispatch(fetchLogin(authData));
+            dispatch(toggleAuth({status: null}))
+            navigate('/auth');
+        };
     }
 
 	return (

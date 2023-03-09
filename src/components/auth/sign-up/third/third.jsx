@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { IconArrow } from 'assets/images/auth';
 import { fetchRegistration } from 'store/async-actions/async-actions';
-import { setData } from 'store/auth-reducer';
+import { setDataReg } from 'store/auth-reducer';
 
 import styles from '../sign-up.module.css';
 
@@ -24,7 +24,7 @@ export const SignUpThirdStep = () => {
 	const navigate = useNavigate();
 
 	const dispatch = useDispatch();
-	const regData = useSelector((state) => state.auth.data);
+	const regData = useSelector((state) => state.auth.dataReg);
 
 	const [tel, setTel] = useState('');
 	const [email, setEmail] = useState('');
@@ -101,7 +101,7 @@ export const SignUpThirdStep = () => {
 
 	const onSubmit = (data) => {
 		if (!disabled && isTelValid && isEmailValid) {
-			dispatch(setData(Object.assign(regData, data)));
+			dispatch(setDataReg(Object.assign(regData, data)));
 			dispatch(fetchRegistration(regData));
 			navigate('/response');
 			resetField('phone', {

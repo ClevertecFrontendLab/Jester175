@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { IconArrow } from 'assets/images/auth';
 import { IconEyeClose, IconEyeOpen } from 'assets/images/auth/icons';
 import { fetchLogin } from 'store/async-actions/async-actions';
+import { setDataAuth } from 'store/auth-reducer';
 
 import styles from './sign-in.module.css';
 
@@ -16,7 +17,8 @@ export const SignIn = () => {
 	const [toggle, setToogle] = useState(false);
 	const authStatus = useSelector((state) => state.auth.auth);
 
-	const onSubmit = async (data) => {
+	const onSubmit = (data) => {
+        dispatch(setDataAuth(data));
 		dispatch(fetchLogin(data));
 	};
 

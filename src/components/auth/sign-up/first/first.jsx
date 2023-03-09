@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { IconArrow } from 'assets/images/auth';
 import { IconEyeClose, IconEyeOpen, IconOkey } from 'assets/images/auth/icons';
-import { setData } from 'store/auth-reducer';
+import { setDataReg } from 'store/auth-reducer';
 
 import styles from '../sign-up.module.css';
 
@@ -250,7 +250,7 @@ export const SignUpFirstStep = ({ changeStep }) => {
 
 	const handleClick = () => {
 		if (isLoginValid && isPasswordValid && !disabled && watch('login') && watch('password')) {
-			dispatch(setData({ username: watch('login'), password: watch('password') }));
+			dispatch(setDataReg({ username: watch('login'), password: watch('password') }));
 			changeStep();
 		} else {
 			if (!watch('password')) onBlurPassword('');
