@@ -1,7 +1,9 @@
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, NavLink, useParams } from 'react-router-dom';
+import { Strapi } from 'api/strapi';
 import { IconArrow } from 'assets/images/sidebar';
+import {toggleAuth} from 'store/auth-reducer';
 import { toggleAccordion, toggleBurgerMenu } from 'store/toggle-reducer';
 
 import styles from './sidebar.module.css';
@@ -34,7 +36,7 @@ export const Sidebar = () => {
 		const arrCountEachCategory = [];
 
 		categories.forEach((itemC) => {
-			arrCountEachCategory.push(books.filter((book) => book.categories.find((item) => item === itemC.name)).length);
+			arrCountEachCategory.push(books?.filter((book) => book.categories.find((item) => item === itemC.name)).length);
 		});
 
 		arrCountEachCategory[0] = null;
@@ -59,6 +61,11 @@ export const Sidebar = () => {
 			document.removeEventListener('mousedown', handler);
 		};
 	});
+
+    const handleClickLogOut = () => {
+        Strapi.authLoginOut();
+        dispatch(toggleAuth({authorized: false}));
+    }
 
 	return (
 		<aside
@@ -146,7 +153,7 @@ export const Sidebar = () => {
 					</NavLink>
 				</li>
 				<li className={styles.item}>
-					<NavLink className={setActive} to='/exit' onClick={() => clickAccordion(false)}>
+					<NavLink className={setActive} onClick={handleClickLogOut}>
 						Выход
 					</NavLink>
 				</li>
