@@ -1,25 +1,54 @@
-export class Strapi {
+import axios from 'axios';
 
-	baseUrl = 'https://strapi.cleverland.by';
+const instance = axios.create({
+    baseURL: 'https://strapi.cleverland.by/',
+});
 
-	getCategories = async () => {
-		const response = await fetch(`${this.baseUrl}/api/categories`);
-		const data = await response.json();
 
-		return data;
-	};
+const exceptionRequest = ['api/auth/local', 'api/auth/local/register', 'api/auth/forgot-password']
 
-	getBooks = async () => {
-		const response = await fetch(`${this.baseUrl}/api/books`);
-		const data = await response.json();
+instance.interceptors.request.use(async (config) => {
+    if (config.url && exceptionRequest.includes(config.url)) {
+        return config
+    }
+    // eslint-disable-next-line no-param-reassign
+    config.headers.Authorization = `Bearer ${localStorage.getItem('jwt')}`
 
-		return data;
-	};
+    return config;
+})
 
-	getBook = async (id) => {
-		const response = await fetch(`${this.baseUrl}/api/books/${id}`);
-		const data = await response.json();
+export const Strapi = {
 
-		return data;
-	};
+	getCategories(){
+		return instance.get('/api/categories');
+	},
+
+	getBooks(){
+		return instance.get('/api/books');
+	},
+
+	getBook(id){
+        return instance.get(`/api/books/${id}`);
+	},
+
+	authRegistration(data){
+        return instance.post('api/auth/local/register', data, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+	},
+
+	authLogin(data) {
+        return instance.post('api/auth/local', data, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+	},
+
+    // eslint-disable-next-line class-methods-use-this
+    authLoginOut(){
+        localStorage.removeItem('jwt')
+    }
 }
