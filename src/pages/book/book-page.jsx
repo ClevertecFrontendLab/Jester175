@@ -38,6 +38,13 @@ export const BookPage = () => {
 		setCurrentImage(value);
 	};
 
+    const formatDate = (date) => {
+        const localeDate = new Date(date).toLocaleDateString();
+        const format = localeDate.slice(0, 5);
+
+		return `${format}`;
+	};
+
 	return (
 		<section className={styles.section}>
 			<div className={styles.sidebar}>
@@ -71,7 +78,7 @@ export const BookPage = () => {
 								type='button'
 							>
 								{book?.delivery
-									? `Занята до ${book?.delivery.dateOrder}`
+									? `Занята до ${formatDate(book?.delivery?.dateHandedTo)}`
 									: book?.booking
 									? 'Забронирована'
 									: 'Забронировать'}

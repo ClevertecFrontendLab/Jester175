@@ -16,6 +16,13 @@ export const CardTile = ({ book, query }) => {
         return book.title
     }
 
+	const formatDate = (date) => {
+        const localeDate = new Date(date).toLocaleDateString();
+        const format = localeDate.slice(0, 5);
+
+		return `${format}`;
+	};
+
     const text = selectedWord();
 
 	return (
@@ -32,8 +39,9 @@ export const CardTile = ({ book, query }) => {
 					{book.authors.map((author) => `${author}, `)} {book.issueYear}
 				</p>
 			</div>
+            {console.log(book.delivery)};
 			<button className={styles[book.delivery ? 'btn-order' : book.booking ? 'btn-order' : 'btn']} type='button'>
-				{book.delivery ? `Занята до ${book.delivery.dateOrder}` : book.booking ? 'Забронирована' : 'Забронировать'}
+				{book.delivery ? `Занята до ${formatDate(book?.delivery?.dateHandedTo)}` : book.booking ? 'Забронирована' : 'Забронировать'}
 			</button>
 		</div>
 	);

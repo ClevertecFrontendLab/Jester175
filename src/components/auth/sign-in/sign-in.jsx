@@ -24,7 +24,7 @@ export const SignIn = () => {
 		if (authStatus.authorized) {
 			navigate('/books/all');
 		}
-		if (authStatus.status !== 400 && authStatus.status !== 200 && authStatus.status && authStatus.status !== 401)
+		if (authStatus.status !== 400 && authStatus.status !== 200 && authStatus.status)
 			navigate('/response');
 	}, [authStatus, navigate]);
 
@@ -39,7 +39,7 @@ export const SignIn = () => {
 						})}
 						type='text'
 						className={`${styles.input} ${
-							authStatus.status === 400 || authStatus.status === 401 ? styles.inputError : ''
+							authStatus.status === 400 ? styles.inputError : ''
 						}`}
 						placeholder='Логин'
 					/>
@@ -51,7 +51,7 @@ export const SignIn = () => {
 						})}
 						type={toggle ? 'text' : 'password'}
 						className={`${styles.input} ${
-							authStatus.status === 400 || authStatus.status === 401 ? styles.inputError : ''
+							authStatus.status === 400 ? styles.inputError : ''
 						}`}
 						placeholder='Пароль'
 					/>
@@ -60,12 +60,12 @@ export const SignIn = () => {
 					</button>
 				</div>
 			</div>
-			{authStatus.status === 400 || authStatus.status === 401 ? (
+			{authStatus.status === 400 ? (
 				<p className={styles.loginError}>Неверный логин или пароль!</p>
 			) : (
 				''
 			)}
-			{authStatus.status === 400 || authStatus.status === 401 ? (
+			{authStatus.status === 400 ? (
 				<Link to='forgot-pass' className={styles.form__restore}>
 					Восстановить?
 				</Link>

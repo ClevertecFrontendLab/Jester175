@@ -8,7 +8,7 @@ export const ResponseAuth = () => {
 	const regStatus = useSelector((state) => state.auth.registration);
 	const authStatus = useSelector((state) => state.auth.auth);
 
-	if (regStatus.status === 400 || regStatus.status === 401) {
+	if (regStatus.status === 400) {
 		return (
 			<PopupAuth
 				title={registrationPopup.exist.title}
@@ -18,7 +18,7 @@ export const ResponseAuth = () => {
 			/>
 		);
 	}
-	if (regStatus.status !== 400 && regStatus.status !== 200 && regStatus.status !== 401) {
+	if (regStatus.status !== 400 && regStatus.status !== 200) {
 		return (
 			<PopupAuth
 				title={registrationPopup.error.title}
@@ -28,7 +28,7 @@ export const ResponseAuth = () => {
 			/>
 		);
 	}
-	if (authStatus.status !== 200 && authStatus.status !== 400 && authStatus.status && authStatus.status !== 401) {
+	if (authStatus.status !== 200 && authStatus.status !== 400 && authStatus.status) {
 		return (
 			<PopupAuth
 				title={authPopup.error.title}
