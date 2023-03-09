@@ -1,8 +1,12 @@
+import { validatePatterns as pattern } from 'constants/constants.js';
+
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { IconArrow } from 'assets/images/auth';
 import { IconEyeClose, IconEyeOpen, IconOkey } from 'assets/images/auth/icons';
+import { setData } from 'store/auth-reducer';
 
 import styles from '../sign-up.module.css';
 
@@ -10,11 +14,12 @@ export const SignUpFirstStep = ({ changeStep }) => {
 	const refTipLogin = useRef();
 	const refTipPassword = useRef();
 
+	const dispatch = useDispatch();
+
 	const {
 		register,
 		formState: { errors },
 		watch,
-		handleSubmit,
 	} = useForm({ mode: 'onBlur' });
 
 	const [login, setLogin] = useState('');
@@ -22,6 +27,9 @@ export const SignUpFirstStep = ({ changeStep }) => {
 	const [disabled, setDisabled] = useState(false);
 	const [toggle, setToogle] = useState(false);
 	const [check, setCheck] = useState(false);
+
+	const [isLoginPlaceholder, setIsLoginPlaceholder] = useState(false);
+	const [isPasswordPlaceholder, setIsPasswordPlaceholder] = useState(false);
 
 	const [isLoginValid, setIsLoginValid] = useState(true);
 	const [isPasswordValid, setIsPasswordValid] = useState(true);
@@ -51,9 +59,9 @@ export const SignUpFirstStep = ({ changeStep }) => {
 			);
 		}
 
-		const number = query?.match(/[0-9]/);
-		const enLetter = query?.match(/[A-Za-z]/);
-		const ruLetter = query?.match(/[А-яа-я]/);
+		const number = query?.match(pattern.login.number);
+		const enLetter = query?.match(pattern.login.enLetter);
+		const ruLetter = query?.match(pattern.login.ruLetter);
 
 		if (!enLetter && number && ruLetter) {
 			return (
@@ -122,7 +130,10 @@ export const SignUpFirstStep = ({ changeStep }) => {
 	};
 
 	const onBlurLogin = (query) => {
-		if (query.match(/^(?=^.{1,}$)((?=.*\d)(?=.*[a-zA-Z]))[0-9a-zA-Z]*$/)) {
+		if (!login.length) {
+			setIsLoginPlaceholder(false);
+		}
+		if (query.match(pattern.login.general)) {
 			setIsLoginValid(true);
 		} else {
 			setIsLoginValid(false);
@@ -131,21 +142,26 @@ export const SignUpFirstStep = ({ changeStep }) => {
 	};
 
 	const onBlurPassword = (query) => {
-		if (query.match(/(?=.*[A-Z])(?=.*[0-9])[a-zA-ZА-Яа-я0-9]{8,}/)) {
+		if (!password.length) {
+			setIsPasswordPlaceholder(false);
+		}
+		if (query.match(pattern.password.general)) {
 			setIsPasswordValid(true);
-            setCheck(true);
+			setCheck(true);
 		} else {
 			setIsPasswordValid(false);
-            setCheck(false);
+			setCheck(false);
 			refTipPassword.current.style.color = '#F42C4F';
 		}
 	};
 
 	const onFocusLogin = () => {
+		setIsLoginPlaceholder(true);
 		refTipLogin.current.style.color = '#a7a7a7';
 	};
 
 	const onFocusPassword = () => {
+		setIsPasswordPlaceholder(true);
 		refTipPassword.current.style.color = '#a7a7a7';
 	};
 
@@ -159,9 +175,9 @@ export const SignUpFirstStep = ({ changeStep }) => {
 			);
 		}
 
-		const number = query?.match(/[0-9]{1,}/);
+		const number = query?.match(pattern.password.number);
 		const passwordLength = query.length > 7;
-		const upperLetter = query?.match(/[A-ZА-Я]{1,}/);
+		const upperLetter = query?.match(pattern.password.upperLetter);
 
 		if (number && !passwordLength && upperLetter) {
 			return (
@@ -234,6 +250,7 @@ export const SignUpFirstStep = ({ changeStep }) => {
 
 	const handleClick = () => {
 		if (isLoginValid && isPasswordValid && !disabled && watch('login') && watch('password')) {
+			dispatch(setData({ username: watch('login'), password: watch('password') }));
 			changeStep();
 		} else {
 			if (!watch('password')) onBlurPassword('');
@@ -243,7 +260,7 @@ export const SignUpFirstStep = ({ changeStep }) => {
 	};
 
 	return (
-		<form className={styles.form} onSubmit={handleSubmit}>
+		<form className={styles.form}>
 			<h2 className={styles.form__title}>Регистрация</h2>
 			<p className={styles.form__steps}>1 шаг из 3 </p>
 			<div className={styles.form__inputs}>
@@ -257,9 +274,14 @@ export const SignUpFirstStep = ({ changeStep }) => {
 						onFocus={onFocusLogin}
 						type='text'
 						name='login'
-						className={isLoginValid ? styles.input : `${styles.error} ${styles.input}`}
+						className={`${isLoginValid ? styles.input : `${styles.error} ${styles.input}`} ${
+							isLoginPlaceholder ?  styles['placeholder--active'] : ''
+						}`}
 						placeholder='Придумайте логин для входа'
 					/>
+					<span className={isLoginPlaceholder ? styles.focusedPlaceholder : styles['focusedPlaceholder--hidden']}>
+						Придумайте логин для входа
+					</span>
 					{errors?.login ? validLogin(login) : validLogin(login)}
 				</div>
 				<div className={styles.wrapper__input}>
@@ -270,9 +292,14 @@ export const SignUpFirstStep = ({ changeStep }) => {
 						})}
 						onFocus={onFocusPassword}
 						type={toggle ? 'text' : 'password'}
-						className={isPasswordValid ? styles.input : `${styles.error} ${styles.input}`}
+						className={`${isPasswordValid ? styles.input : `${styles.error} ${styles.input}`} ${
+							isPasswordPlaceholder ? styles['placeholder--active'] : ''
+						}`}
 						placeholder='Пароль'
 					/>
+					<span className={isPasswordPlaceholder ? styles.focusedPlaceholder : styles['focusedPlaceholder--hidden']}>
+						Пароль
+					</span>
 					<span className={check ? `${styles.form__okey} ${styles['form__okey--active']}` : styles.form__okey}>
 						{IconOkey}
 					</span>
@@ -282,12 +309,7 @@ export const SignUpFirstStep = ({ changeStep }) => {
 					{errors?.login ? validPassword(password) : validPassword(password)}
 				</div>
 			</div>
-			<button
-				disabled={disabled}
-				className={styles.form__btn}
-				type='submit'
-				onClick={handleClick}
-			>
+			<button disabled={disabled} className={styles.form__btn} type='submit' onClick={handleClick}>
 				следующий шаг
 			</button>
 			<div className={styles.from__text}>

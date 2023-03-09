@@ -150,3 +150,28 @@
 .form__okey--active {
 	display: inline;
 }
+
+.input.placeholder--active {
+	padding: 26px 12px 12px;
+}
+.input.placeholder--active::placeholder {
+	color: transparent;
+}
+
+.focusedPlaceholder {
+	position: absolute;
+	top: 6px;
+	left: 12px;
+    display: inline-block;
+	font-weight: 500;
+	font-size: 12px;
+	line-height: 16px;
+	letter-spacing: 0.2px;
+	color: #a7a7a7;
+	opacity: 1;
+}
+
+.focusedPlaceholder--hidden {
+    display: none;
+	opacity: 0;
+}
